@@ -1,6 +1,7 @@
 %{
 /* C code to be copied verbatim */
 #include <stdio.h>
+#include "Parser.tab.h"
 %}
 
 /* This tells flex to read only one input file */
@@ -8,10 +9,11 @@
 IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 
 %%
-[&%|(){}!/+-*[]] return yytext[0];
+(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)   return COMMENT;
+
     /* variable types */
 "const"     return CONST;
-"int"       return INT ;      
+"int"       return INT ;
 "float"     return FLOAT;
 "string"    return STRING;
 "char"      return CHAR;
@@ -21,7 +23,7 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 "then"      return THEN;
 "while"     return WHILE;
 "for"       return FOR;
-"switch"    return SWTICH;
+"switch"    return SWITCH;
 "case"      return CASE;
 "do"        return DO;
 "default"   return DEFAULT;
@@ -29,12 +31,13 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 "else"      return ELSE;
 "return" return RETURN;
 "main" return MAIN;
+"void" return VOID;
 "include" return INCLUDE;
 "#" return HASH;
     /* operators */
 
 "'" return SINGLE_QUOTE;
-"\"" return DOUBLE_QUOTE;
+"\""return DOUBLE_QUOTE;
 ";" return SEMI_COLON;
 "(" return OPENED_BRACKET;
 ")" return CLOSED_BRACKET;
@@ -45,8 +48,8 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 "," return COMMA;
 ":" return TWO_DOTS;
 
-"&&" return AND_AND;
-"||"  return OR_OR;
+"&" return AND;
+"|"  return OR;
 "==" return EQUAL_EQUAL;
 "!=" return NOT_EQUAL;
 ">"  return GREATER_THAN;
@@ -88,10 +91,3 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 
 %%
 /*** C Code section ***/
-
-int main(void)
-{
-    /* Call the lexer, then quit. */
-    yylex();
-    return 0;
-}
