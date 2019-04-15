@@ -39,6 +39,7 @@
 "'" return SINGLE_QUOTE;
 "\""return DOUBLE_QUOTE;
 ";" return SEMI_COLON;
+":" return COLON;
 "(" return OPENED_BRACKET;
 ")" return CLOSED_BRACKET;
 "{" return OPENED_BRACE;
@@ -46,7 +47,6 @@
 "[" return OPENED_SQ_BRACKET;
 "]" return CLOSED_SQ_BRACKET;
 "," return COMMA;
-":" return TWO_DOTS;
 
 "&" return AND;
 "|"  return OR;
@@ -71,6 +71,7 @@
 "++" return PLUS_PLUS;
 "--" return MINUS_MINUS;
 "=" return EQUAL;
+[ \t\n];    /// ignore tab
     /*
     ++
     --
@@ -89,6 +90,13 @@
     |= */
 (_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*  {return IDENTIFIER;}
 
+[+-]?[0-9]+                      {return INT_VALUE;}
+
+[+-]?[0-9]+[.][0-9]+             {return FLOAT_VALUE;}
+
+\'[A-Za-z]'\                          {return CHAR_VALUE;}
+
+\"[A-Za-z_]([0-9]|[A-Za-z_]|[ \t\n])*\"  {return STRING_VALUE;}
 
 %%
 /*** C Code section ***/
