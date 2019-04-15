@@ -6,10 +6,10 @@
 
 /* This tells flex to read only one input file */
 %option noyywrap
-IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
+
 
 %%
-(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)   return COMMENT;
+(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)   {return COMMENT;}
 
     /* variable types */
 "const"     return CONST;
@@ -87,6 +87,7 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
     &=
     ^=
     |= */
+(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*  {return IDENTIFIER;}
 
 
 %%

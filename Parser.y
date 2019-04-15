@@ -22,11 +22,11 @@
 	char* comment;
 };
 
-%start root
+%start Root
 
-%token <intValue> INT
-%token <boolvalue> BOOL
-%token <floatValue> FLOAT
+%token <stringValue> INT
+%token <stringValue> BOOL
+%token <stringValue> FLOAT
 %token <charValue> CHAR
 %token <stringValue> STRING
 %token <identifier> IDENTIFIER
@@ -42,9 +42,24 @@
 %%
 
 
-root: i SEMI_COLON ;
+Root: Program;
+Program:Declarations| Program Declarations;
 
-i:  IDENTIFIER |;
+Declarations:Var_Dec;
+
+Var_Dec:Data_Type Assign SEMI_COLON;
+
+Data_Type: INT | FLOAT | BOOL | STRING | CHAR;
+
+Assign: IDENTIFIER EQUAL Expr SEMI_COLON | IDENTIFIER;
+
+Expr: Math_Expr;
+
+Math_Expr: Math_Expr PLUS Term | Math_Expr MINUS Term | Term;
+Term: Term MULTIPLY Factor | Term DIVIDE Factor | Factor;
+Factor:  IDENTIFIER {printf("afsda");}|OPENED_BRACKET Math_Expr CLOSED_BRACKET;
+
+
 
 
 
