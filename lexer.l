@@ -52,7 +52,7 @@
 "[" return OSQ_BRACKET;
 "]" return CSQ_BRACKET;
 "," return COMMA;
-":" return TWO_DOTS;
+":" return COLON;
 
 "&&" return AND;
 "||"  return OR;
