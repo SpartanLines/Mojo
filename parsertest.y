@@ -41,7 +41,7 @@
 %token <identifier> IDENTIFIER
 %token <comment> COMMENT
 %token IF THEN WHILE FOR SWITCH CASE DO DEFAULT ELIF ELSE RETURN MAIN INCLUDE HASH CLASS FUNC
-%token SINGLE_QUOTE DOUBLE_QUOTE SEMI_COLON COLON OBRACKET CBRACKET OBRACE CBRACE OSQ_BRACKET CSQ_BRACKET COMMA TWO_DOTS
+%token SINGLE_QUOTE DOUBLE_QUOTE SEMI_COLON COLON OBRACKET CBRACKET OBRACE CBRACE OSQ_BRACKET CSQ_BRACKET COMMA TWO_DOTS DOT
 %token TRUE FALSE AND OR EQUAL_EQUAL NOT_EQUAL GREATER_THAN GREATER_THAN_EQUAL SMALLER_THAN SMALLER_THAN_EQUAL NOT
 %token REMAINDER PLUS_EQUAL MINUS_EQUAL MULTIPLY_EQUAL DIVIDE_EQUAL PLUS_PLUS MINUS_MINUS EQUAL
 %token CONST
@@ -53,25 +53,42 @@
 %left POWER
 %%
 Root:Program;
-Program:statements;
-statements: statement|statement statements ;
-statement:declerations  
-| Assign SEMI_COLON {printf("Variable Assign is working \n")}
-|ifstmts
-|forstmt
-|dowhilestmt
-|whilestmt
-|switchstmt
-|assignments;
 
+Program:statements;
+
+statements: statement|statement statements ;
+
+statement:declerations  
+          |ifstmts
+          |forstmt
+          |dowhilestmt
+          |whilestmt
+          |switchstmt
+          |assignments;
+          |func_call
+          |classstmt;
+
+//////////// class statement  ////////////
+
+classstmt: CLASS IDENTIFIER OBRACE vars funcs CBRACE;
+
+var_decs: Var_Dec|Arr_Dec;
+
+vars: var_decs| vars var_decs;
+funcs: Func_Dec|funcs Func_Dec;
 //////////// if statement  ////////////
 
 ifstmts:ifstmt  {printf("if is working \n");}
-|ifstmt elsestmt|ifstmt elifs|ifstmt elifs elsestmt;
+        |ifstmt elsestmt
+        |ifstmt elifs
+        |ifstmt elifs elsestmt;
 
 ifstmt: IF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
+
 elifs: elifstmt| elifstmt elifs;
+
 elifstmt: ELIF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
+
 elsestmt: ELSE OBRACE statements CBRACE;
 
 //////////// for statement  ////////////
@@ -91,13 +108,28 @@ dowhilestmt:DO OBRACE statements CBRACE WHILE OBRACKET LOG_EXPR CBRACKET {printf
 switchstmt: SWITCH OBRACKET IDENTIFIER CBRACKET OBRACE switchcases CBRACE {printf("SWITCH loop is working \n");};
 
 switchcases:caselist DEFAULT COLON statements|DEFAULT COLON statements;
+
 caselist: case|case caselist;
+
 case: CASE OBRACKET DataVAL CBRACKET COLON statements;
+
+////////////  function declerations and definitions  ////////////
+
+Func_Dec: FUNC IDENTIFIER Args super_data_type OBRACE statements CBRACE
+          |FUNC IDENTIFIER Args OBRACE statements CBRACE
+          |FUNC Args super_data_type OBRACE statements CBRACE
+          |FUNC Args OBRACE statements CBRACE;
+
+Args:OBRACKET CBRACKET
+     | OBRACKET Args_list CBRACKET;
+
+Args_list: Data_Type IDENTIFIER | Data_Type OSQ_BRACKET CSQ_BRACKET IDENTIFIER | Args_list COMMA Data_Type IDENTIFIER;
 
 //////////// Variable Declarations and Definition ////////////
 
 declerations:Var_Dec {printf("Variavle Declaration is working \n");}
-              |Arr_Dec;
+              |Arr_Dec
+              |Func_Dec;
 
 assignments: Array_Assign|generic_assign;
 
@@ -108,10 +140,15 @@ Var_Dec:CONST Data_Type Assign SEMI_COLON
 Arr_Dec:CONST array_data_type Array_Assign SEMI_COLON
         |array_data_type Array_Assign SEMI_COLON;
 
-Expr_list:Expr|Expr COMMA identifier_list;
+Expr_list:Expr
+          |Expr COMMA identifier_list;
 
 Array_Assign: identifier_list EQUAL OSQ_BRACKET Expr_list CSQ_BRACKET
+              |identifier_list EQUAL IDENTIFIER
+              |identifier_list EQUAL func_call
               |identifier_list;
+
+super_data_type:array_data_type|Data_Type;
 
 array_data_type:Data_Type OSQ_BRACKET CSQ_BRACKET
                 |Data_Type OSQ_BRACKET INT_VALUE CSQ_BRACKET;
@@ -121,11 +158,13 @@ Data_Type: INT | FLOAT | BOOL | STRING | CHAR;
 //////////// check making different equals i.e int x=0,y=1 ////////////
 Assign: identifier_list EQUAL Expr;
 
-generic_assign:Assign|IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET EQUAL Expr; 
+generic_assign:Assign SEMI_COLON {printf("Variable Assign is working \n")}
+              |IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET EQUAL Expr; 
 
-identifier_list: IDENTIFIER |IDENTIFIER COMMA identifier_list ;
+identifier_list: IDENTIFIER 
+                |IDENTIFIER COMMA identifier_list ;
 
-
+func_call: IDENTIFIER OBRACKET identifier_list CBRACKET| IDENTIFIER OBRACKET CBRACKET;
 
 
 Expr:  LOG_EXPR;
@@ -162,7 +201,8 @@ Casting: MATH_CALC| OBRACKET Data_Type CBRACKET MATH_CALC {printf("Casting");};
 MATH_CALC: INT_VALUE|
             FLOAT_VALUE|
             IDENTIFIER|
-            IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET;
+            IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET
+            |func_call;
 
 
 UniaryEXP: IDENTIFIER PLUS_PLUS|

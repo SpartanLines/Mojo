@@ -42,7 +42,7 @@
 "include" return INCLUDE;
 "#" return HASH;
     /* operators */
-
+"." return DOT;
 "'" return SINGLE_QUOTE;
 "\"" return DOUBLE_QUOTE;
 ";" return SEMI_COLON;
