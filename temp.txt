@@ -1,0 +1,18 @@
+statements: stmt|
+            statements stmt;
+
+stmt: ifstmt |forstmt|whilestmt|dostmt|casestmt|declaration|assignment;
+    /* Check For Conflicts, ADD DECELERATION LIST*/
+decleration:DataTYPE IDENTIFIER |
+            CONST DataTYPE IDENTIFIER|
+            DataTYPE IDENTIFIER OBRACKET CBRACKET|
+            DataTYPE IDENTIFIER OBRACKET INT_VALUE CBRACKET|
+            DataTYPE assignment|
+            CONST DataTYPE assignment|
+            DataTYPE arrayassignment
+            ;
+            
+            /*Add Casting as well  */
+
+assignment:;
+DataTYPE: INT|STRING|CHAR|FLOAT;

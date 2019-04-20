@@ -1,29 +1,36 @@
 %{
 /* C code to be copied verbatim */
 #include <stdio.h>
-#include "Parser.tab.h"
+#include <stdlib.h>
+#include <stdio.h>
+	void extern yyerror(char*);
+	void invalidToken();
+	int mylineno = 1;
 %}
 
 /* This tells flex to read only one input file */
 %option noyywrap
-
-
+IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
+ /* [&%|(){}!/+-*[]] return yytext[0];
+ */
 %%
-(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)   {return COMMENT;}
-
     /* variable types */
+
 "const"     return CONST;
-"int"       return INT ;
+"int"       return INT ;      
 "float"     return FLOAT;
 "string"    return STRING;
 "char"      return CHAR;
 "bool"      return BOOL;
+
+"true"      return TRUE;
+"false"     return FALSE:
     /* statements types */
 "if"        return IF;
 "then"      return THEN;
 "while"     return WHILE;
 "for"       return FOR;
-"switch"    return SWITCH;
+"switch"    return SWTICH;
 "case"      return CASE;
 "do"        return DO;
 "default"   return DEFAULT;
@@ -31,25 +38,24 @@
 "else"      return ELSE;
 "return" return RETURN;
 "main" return MAIN;
-"void" return VOID;
 "include" return INCLUDE;
 "#" return HASH;
     /* operators */
 
 "'" return SINGLE_QUOTE;
-"\""return DOUBLE_QUOTE;
-";" return SEMI_COLON;
-":" return COLON;
-"(" return OPENED_BRACKET;
-")" return CLOSED_BRACKET;
-"{" return OPENED_BRACE;
-"}" return CLOSED_BRACE;
-"[" return OPENED_SQ_BRACKET;
-"]" return CLOSED_SQ_BRACKET;
+"\"" return DOUBLE_QUOTE;
+";" return SEMI_COL;
+"(" return OBRACKET;
+")" return CBRACKET;
+"{" return OBRACE;
+"}" return CBRACE;
+"[" return OSQ_BRACKET;
+"]" return CSQ_BRACKET;
 "," return COMMA;
+":" return TWO_DOTS;
 
-"&" return AND;
-"|"  return OR;
+"&&" return AND_AND;
+"||"  return OR_OR;
 "==" return EQUAL_EQUAL;
 "!=" return NOT_EQUAL;
 ">"  return GREATER_THAN;
@@ -58,7 +64,7 @@
 "<=" return SMALLER_THAN_EQUAL;
 "!" 	return NOT;
 
-
+"^" return POWER;
 "+" return PLUS;
 "-" return MINUS;
 "*" return MULTIPLY;
@@ -71,7 +77,13 @@
 "++" return PLUS_PLUS;
 "--" return MINUS_MINUS;
 "=" return EQUAL;
-[ \t\n];    /// ignore tab
+"//" return COMMENT;
+
+(-)?[0-9]+  {return INTVALUE;}
+
+\n {mylineno++;}
+
+. {invalidToken();}
     /*
     ++
     --
@@ -88,15 +100,18 @@
     &=
     ^=
     |= */
-(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*  {return IDENTIFIER;}
 
-[+-]?[0-9]+                      {return INT_VALUE;}
-
-[+-]?[0-9]+[.][0-9]+             {return FLOAT_VALUE;}
-
-\'[A-Za-z]'\                          {return CHAR_VALUE;}
-
-\"[A-Za-z_]([0-9]|[A-Za-z_]|[ \t\n])*\"  {return STRING_VALUE;}
 
 %%
 /*** C Code section ***/
+
+int main(void)
+{
+    /* Call the lexer, then quit. */
+    yylex();
+    return 0;
+}
+
+void invalidToken(){
+	fprintf(stderr,"\n Error Invalid Token on line %d : %s \n",mylineno,yytext);
+}
