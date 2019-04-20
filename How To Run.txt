@@ -1,0 +1,3 @@
+flex lever.l
+bison -d -v parsertest.y
+gcc -o sample parsertest.tab.c
