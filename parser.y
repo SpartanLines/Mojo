@@ -46,8 +46,8 @@
 %token REMAINDER PLUS_EQUAL MINUS_EQUAL MULTIPLY_EQUAL DIVIDE_EQUAL PLUS_PLUS MINUS_MINUS EQUAL
 %token CONST
 %token VOID
-%right MINUS 
-%left  PLUS 
+%right MINUS
+%left  PLUS
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
@@ -55,7 +55,7 @@
 Root:Program;
 Program:Expr;
 
-
+. {invalidToken();}
 
 Expr:   LOG_EXPR|DataVAL;
 LOG_EXPR:   DataVAL|

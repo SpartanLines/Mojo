@@ -10,27 +10,27 @@
 
 /* This tells flex to read only one input file */
 %option noyywrap
-IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
+
  /* [&%|(){}!/+-*[]] return yytext[0];
  */
 %%
     /* variable types */
 
 "const"     return CONST;
-"int"       return INT ;      
+"int"       return INT ;
 "float"     return FLOAT;
 "string"    return STRING;
 "char"      return CHAR;
 "bool"      return BOOL;
 
 "true"      return TRUE;
-"false"     return FALSE:
+"false"     return FALSE;
     /* statements types */
 "if"        return IF;
 "then"      return THEN;
 "while"     return WHILE;
 "for"       return FOR;
-"switch"    return SWTICH;
+"switch"    return SWITCH;
 "case"      return CASE;
 "do"        return DO;
 "default"   return DEFAULT;
@@ -44,7 +44,7 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 
 "'" return SINGLE_QUOTE;
 "\"" return DOUBLE_QUOTE;
-";" return SEMI_COL;
+";" return SEMI_COLON;
 "(" return OBRACKET;
 ")" return CBRACKET;
 "{" return OBRACE;
@@ -54,8 +54,8 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 "," return COMMA;
 ":" return TWO_DOTS;
 
-"&&" return AND_AND;
-"||"  return OR_OR;
+"&&" return AND;
+"||"  return OR;
 "==" return EQUAL_EQUAL;
 "!=" return NOT_EQUAL;
 ">"  return GREATER_THAN;
@@ -79,11 +79,18 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 "=" return EQUAL;
 "//" return COMMENT;
 
-(-)?[0-9]+  {return INTVALUE;}
+(-)?[0-9]+  {return INT_VALUE;}
 
+(-)?[0-9]+[.][0-9]+  {return FLOAT_VALUE;}
+
+\'[A-Za-z0-9]\' {return CHAR_VALUE;}
+
+\"[\x23-\x7E \t !]*\" {return STRING;}
+
+[_a-zA-z][_a-zA-Z0-9]* {return IDENTIFIER;}
 \n {mylineno++;}
 
-. {invalidToken();}
+
     /*
     ++
     --
@@ -104,14 +111,3 @@ IDENTIFIER [_a-zA-z][_a-zA-Z0-9]*
 
 %%
 /*** C Code section ***/
-
-int main(void)
-{
-    /* Call the lexer, then quit. */
-    yylex();
-    return 0;
-}
-
-void invalidToken(){
-	fprintf(stderr,"\n Error Invalid Token on line %d : %s \n",mylineno,yytext);
-}

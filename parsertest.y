@@ -46,8 +46,8 @@
 %token REMAINDER PLUS_EQUAL MINUS_EQUAL MULTIPLY_EQUAL DIVIDE_EQUAL PLUS_PLUS MINUS_MINUS EQUAL
 %token CONST
 %token VOID
-%right MINUS 
-%left  PLUS 
+%right MINUS
+%left  PLUS
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
@@ -55,11 +55,17 @@
 Root:Program;
 Program:statements;
 statements: statement|statement statements ;
-statement:Var_Dec| Assign SEMI_COLON|ifstmts|forstmt|dowhilestmt|whilestmt|switchstmt;
+statement:Var_Dec  {printf("Variavle Declaration is working \n");}
+| Assign SEMI_COLON {printf("Variable Assign is working \n")}
+|ifstmts
+|forstmt
+|dowhilestmt
+|whilestmt
+|switchstmt;
 
 //////////// if statement  ////////////
 
-ifstmts:ifstmt|ifstmt elsestmt|ifstmt elifs|ifstmt elifs elsestmt;
+ifstmts:ifstmt{printf("if is working \n");};|ifstmt elsestmt|ifstmt elifs|ifstmt elifs elsestmt;
 ifstmt: IF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
 elifs: elifstmt| elifstmt elifs;
 elifstmt: ELIF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
@@ -67,27 +73,27 @@ elsestmt: ELSE OBRACE statements CBRACE;
 
 //////////// for statement  ////////////
 
-forstmt:FOR OBRACKET Var_Dec SEMI_COLON LOG_EXPR SEMI_COLON LOG_EXPR CBRACKET OBRACE statements CBRACE;
+forstmt:FOR OBRACKET Var_Dec LOG_EXPR SEMI_COLON LOG_EXPR CBRACKET OBRACE statements CBRACE {printf("for loop is working \n");};
 
 //////////// while statement  ////////////
 
-whilestmt:WHILE OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
+whilestmt:WHILE OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE {printf("WHILE loop is working \n");};
 
 ////////////do  while statement  ////////////
 
-dowhilestmt:DO OBRACE statements CBRACE WHILE OBRACKET LOG_EXPR CBRACKET ;
+dowhilestmt:DO OBRACE statements CBRACE WHILE OBRACKET LOG_EXPR CBRACKET {printf("DO WHILE loop is working \n");};
 
 ////////////  switch statement  ////////////
 
-switchstmt: SWITCH OBRACKET IDENTIFIER CBRACKET OBRACE switchcases CBRACE;
+switchstmt: SWITCH OBRACKET IDENTIFIER CBRACKET OBRACE switchcases CBRACE {printf("SWITCH loop is working \n");};
 
-switchcases:caselist DEFAULT COLON statements|DEFAULT COLON statements; 
-caselist: case|case caselist;
+switchcases:caselist DEFAULT COLON statements|DEFAULT COLON statements;
+caselist: case|case caselist;;
 case: CASE OBRACKET DataVAL CBRACKET COLON statements;
 //////////// Variable Declarations and Definition ////////////
 //////////// @TODO remove the assing from var dec and add it statements ////////////
 
-Var_Dec:CONST Data_Type Assign SEMI_COLON|Data_Type Assign SEMI_COLON ;
+Var_Dec:CONST Data_Type Assign SEMI_COLON|Data_Type Assign SEMI_COLON;
 
 Data_Type: INT | FLOAT | BOOL | STRING | CHAR;
 
@@ -95,7 +101,7 @@ Data_Type: INT | FLOAT | BOOL | STRING | CHAR;
 Assign: identifier_list EQUAL Expr| identifier_list;
 
 //////////// might need to flip iden list and identifier ////////////
-identifier_list: IDENTIFIER|IDENTIFIER COMMA identifier_list ;
+identifier_list: IDENTIFIER |IDENTIFIER COMMA identifier_list ;
 
 ////////////Expr_list:Expr|Expr_list COMMA Expr; ////////////
 
@@ -107,34 +113,34 @@ DataVAL: CHAR_VALUE|
             FALSE|
           MATH_EXPR;
 
-LOG_EXPR: LOG_EXPR AND DataVAL
-          | LOG_EXPR OR DataVAL
-          | LOG_EXPR GREATER_THAN DataVAL
-          | LOG_EXPR GREATER_THAN_EQUAL DataVAL
-          | LOG_EXPR SMALLER_THAN DataVAL
-          | LOG_EXPR SMALLER_THAN_EQUAL DataVAL
-          | LOG_EXPR EQUAL_EQUAL DataVAL
-          | LOG_EXPR NOT_EQUAL DataVAL
+LOG_EXPR: LOG_EXPR AND DataVAL {printf("Logical expression AND \n");}
+          | LOG_EXPR OR DataVAL {printf("Logical expression OR \n");}
+          | LOG_EXPR GREATER_THAN DataVAL {printf("Logical expression GREATER_THAN \n");}
+          | LOG_EXPR GREATER_THAN_EQUAL DataVAL {printf("Logical expression GREATER_THAN_EQUAL \n");}
+          | LOG_EXPR SMALLER_THAN DataVAL {printf("Logical expression SMALLER_THAN \n");}
+          | LOG_EXPR SMALLER_THAN_EQUAL DataVAL {printf("Logical expression SMALLER_THAN_EQUAL \n");}
+          | LOG_EXPR EQUAL_EQUAL DataVAL {printf("Logical expression EQUAL_EQUAL  \n");}
+          | LOG_EXPR NOT_EQUAL DataVAL {printf("Logical expression NOT_EQUAL \n");}
           | NOT DataVAL
           | DataVAL
           |OBRACKET LOG_EXPR CBRACKET;
 
-            
-            
+
+
 
 MATH_EXPR:Casting|
-          Casting MINUS MATH_EXPR| 
+          Casting MINUS MATH_EXPR|
           Casting PLUS MATH_EXPR|
           Casting DIVIDE MATH_EXPR|
           Casting MULTIPLY MATH_EXPR|
           Casting REMAINDER MATH_EXPR|
           Casting POWER MATH_EXPR|
           UniaryEXP;
-Casting: MATH_CALC| OBRACKET Data_Type CBRACKET MATH_CALC;
+Casting: MATH_CALC| OBRACKET Data_Type CBRACKET MATH_CALC {printf("Casting");};
 MATH_CALC: INT_VALUE|
             FLOAT_VALUE|
             IDENTIFIER;
-          
+
 
 UniaryEXP: IDENTIFIER PLUS_PLUS|
             IDENTIFIER MINUS_MINUS|
@@ -142,3 +148,13 @@ UniaryEXP: IDENTIFIER PLUS_PLUS|
             MINUS_MINUS IDENTIFIER;
 
 %%
+#include"lex.yy.c"
+
+void yyerror(char * s){
+	fprintf(stderr,"%s\n",s);
+}
+
+int main(void) {
+  //yylex();
+   return yyparse();
+}

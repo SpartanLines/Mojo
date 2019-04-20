@@ -1,0 +1,1232 @@
+Terminals which are not used
+
+   INT
+   BOOL
+   FLOAT
+   CHAR
+   STRING
+   STRING_VALUE
+   COMMENT
+   IF
+   THEN
+   WHILE
+   FOR
+   SWITCH
+   CASE
+   DO
+   DEFAULT
+   ELIF
+   ELSE
+   RETURN
+   MAIN
+   INCLUDE
+   HASH
+   SINGLE_QUOTE
+   DOUBLE_QUOTE
+   SEMI_COLON
+   COLON
+   OBRACE
+   CBRACE
+   OSQ_BRACKET
+   CSQ_BRACKET
+   COMMA
+   TWO_DOTS
+   PLUS_EQUAL
+   MINUS_EQUAL
+   MULTIPLY_EQUAL
+   DIVIDE_EQUAL
+   EQUAL
+   CONST
+   VOID
+
+
+State 15 conflicts: 1 reduce/reduce
+State 16 conflicts: 3 shift/reduce
+State 22 conflicts: 4 shift/reduce
+State 23 conflicts: 5 shift/reduce
+State 46 conflicts: 5 shift/reduce
+State 47 conflicts: 5 shift/reduce
+State 48 conflicts: 5 shift/reduce
+State 49 conflicts: 5 shift/reduce
+State 50 conflicts: 4 shift/reduce
+State 52 conflicts: 1 shift/reduce
+State 53 conflicts: 1 shift/reduce
+State 54 conflicts: 1 shift/reduce
+State 55 conflicts: 1 shift/reduce
+State 56 conflicts: 1 shift/reduce
+State 57 conflicts: 1 shift/reduce
+State 58 conflicts: 6 shift/reduce
+State 59 conflicts: 1 shift/reduce
+State 60 conflicts: 1 shift/reduce
+State 61 conflicts: 1 shift/reduce
+State 62 conflicts: 1 shift/reduce
+State 63 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: Root $end
+
+    1 Root: Program
+
+    2 Program: Expr
+
+    3 Expr: LOG_EXPR
+    4     | DataVAL
+
+    5 LOG_EXPR: DataVAL
+    6         | LOG_EXPR AND LOG_EXPR
+    7         | LOG_EXPR OR LOG_EXPR
+    8         | LOG_EXPR POWER LOG_EXPR
+    9         | LOG_EXPR NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR EQUAL_EQUAL LOG_EXPR
+   11         | MATH_EXPR SMALLER_THAN MATH_EXPR
+   12         | MATH_EXPR SMALLER_THAN_EQUAL MATH_EXPR
+   13         | MATH_EXPR GREATER_THAN MATH_EXPR
+   14         | MATH_EXPR GREATER_THAN_EQUAL MATH_EXPR
+   15         | MATH_EXPR EQUAL_EQUAL MATH_EXPR
+   16         | MATH_EXPR NOT_EQUAL MATH_EXPR
+   17         | NOT LOG_EXPR
+   18         | OBRACKET LOG_EXPR CBRACKET
+
+   19 DataVAL: CHAR_VALUE
+   20        | TRUE
+   21        | FALSE
+   22        | MATH_EXPR
+
+   23 MATH_EXPR: INT_VALUE
+   24          | FLOAT_VALUE
+   25          | IDENTIFIER
+   26          | MATH_EXPR MINUS MATH_EXPR
+   27          | MATH_EXPR PLUS MATH_EXPR
+   28          | MATH_EXPR DIVIDE MATH_EXPR
+   29          | MATH_EXPR MULTIPLY MATH_EXPR
+   30          | MATH_EXPR REMAINDER MATH_EXPR
+   31          | MATH_EXPR POWER MATH_EXPR
+   32          | OBRACKET MATH_EXPR CBRACKET
+   33          | UniaryEXP
+
+   34 UniaryEXP: IDENTIFIER PLUS_PLUS
+   35          | IDENTIFIER MINUS_MINUS
+   36          | PLUS_PLUS IDENTIFIER
+   37          | MINUS_MINUS IDENTIFIER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT (258)
+INT_VALUE (259) 23
+BOOL (260)
+FLOAT (261)
+FLOAT_VALUE (262) 24
+CHAR (263)
+CHAR_VALUE (264) 19
+STRING (265)
+STRING_VALUE (266)
+IDENTIFIER (267) 25 34 35 36 37
+COMMENT (268)
+IF (269)
+THEN (270)
+WHILE (271)
+FOR (272)
+SWITCH (273)
+CASE (274)
+DO (275)
+DEFAULT (276)
+ELIF (277)
+ELSE (278)
+RETURN (279)
+MAIN (280)
+INCLUDE (281)
+HASH (282)
+SINGLE_QUOTE (283)
+DOUBLE_QUOTE (284)
+SEMI_COLON (285)
+COLON (286)
+OBRACKET (287) 18 32
+CBRACKET (288) 18 32
+OBRACE (289)
+CBRACE (290)
+OSQ_BRACKET (291)
+CSQ_BRACKET (292)
+COMMA (293)
+TWO_DOTS (294)
+TRUE (295) 20
+FALSE (296) 21
+AND (297) 6
+OR (298) 7
+EQUAL_EQUAL (299) 10 15
+NOT_EQUAL (300) 9 16
+GREATER_THAN (301) 13
+GREATER_THAN_EQUAL (302) 14
+SMALLER_THAN (303) 11
+SMALLER_THAN_EQUAL (304) 12
+NOT (305) 17
+REMAINDER (306) 30
+PLUS_EQUAL (307)
+MINUS_EQUAL (308)
+MULTIPLY_EQUAL (309)
+DIVIDE_EQUAL (310)
+PLUS_PLUS (311) 34 36
+MINUS_MINUS (312) 35 37
+EQUAL (313)
+CONST (314)
+VOID (315)
+MINUS (316) 26
+PLUS (317) 27
+DIVIDE (318) 28
+MULTIPLY (319) 29
+POWER (320) 8 31
+
+
+Nonterminals, with rules where they appear
+
+$accept (66)
+    on left: 0
+Root (67)
+    on left: 1, on right: 0
+Program (68)
+    on left: 2, on right: 1
+Expr (69)
+    on left: 3 4, on right: 2
+LOG_EXPR (70)
+    on left: 5 6 7 8 9 10 11 12 13 14 15 16 17 18, on right: 3 6 7
+    8 9 10 17 18
+DataVAL (71)
+    on left: 19 20 21 22, on right: 4 5
+MATH_EXPR (72)
+    on left: 23 24 25 26 27 28 29 30 31 32 33, on right: 11 12 13 14
+    15 16 22 26 27 28 29 30 31 32
+UniaryEXP (73)
+    on left: 34 35 36 37, on right: 33
+
+
+state 0
+
+    0 $accept: . Root $end
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    Root       go to state 11
+    Program    go to state 12
+    Expr       go to state 13
+    LOG_EXPR   go to state 14
+    DataVAL    go to state 15
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 1
+
+   23 MATH_EXPR: INT_VALUE .
+
+    $default  reduce using rule 23 (MATH_EXPR)
+
+
+state 2
+
+   24 MATH_EXPR: FLOAT_VALUE .
+
+    $default  reduce using rule 24 (MATH_EXPR)
+
+
+state 3
+
+   19 DataVAL: CHAR_VALUE .
+
+    $default  reduce using rule 19 (DataVAL)
+
+
+state 4
+
+   25 MATH_EXPR: IDENTIFIER .
+   34 UniaryEXP: IDENTIFIER . PLUS_PLUS
+   35          | IDENTIFIER . MINUS_MINUS
+
+    PLUS_PLUS    shift, and go to state 18
+    MINUS_MINUS  shift, and go to state 19
+
+    $default  reduce using rule 25 (MATH_EXPR)
+
+
+state 5
+
+   18 LOG_EXPR: OBRACKET . LOG_EXPR CBRACKET
+   32 MATH_EXPR: OBRACKET . MATH_EXPR CBRACKET
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 20
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 22
+    UniaryEXP  go to state 17
+
+
+state 6
+
+   20 DataVAL: TRUE .
+
+    $default  reduce using rule 20 (DataVAL)
+
+
+state 7
+
+   21 DataVAL: FALSE .
+
+    $default  reduce using rule 21 (DataVAL)
+
+
+state 8
+
+   17 LOG_EXPR: NOT . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 23
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 9
+
+   36 UniaryEXP: PLUS_PLUS . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 24
+
+
+state 10
+
+   37 UniaryEXP: MINUS_MINUS . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 25
+
+
+state 11
+
+    0 $accept: Root . $end
+
+    $end  shift, and go to state 26
+
+
+state 12
+
+    1 Root: Program .
+
+    $default  reduce using rule 1 (Root)
+
+
+state 13
+
+    2 Program: Expr .
+
+    $default  reduce using rule 2 (Program)
+
+
+state 14
+
+    3 Expr: LOG_EXPR .
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    $default  reduce using rule 3 (Expr)
+
+
+state 15
+
+    4 Expr: DataVAL .
+    5 LOG_EXPR: DataVAL .
+
+    $end      reduce using rule 4 (Expr)
+    $end      [reduce using rule 5 (LOG_EXPR)]
+    $default  reduce using rule 5 (LOG_EXPR)
+
+
+state 16
+
+   11 LOG_EXPR: MATH_EXPR . SMALLER_THAN MATH_EXPR
+   12         | MATH_EXPR . SMALLER_THAN_EQUAL MATH_EXPR
+   13         | MATH_EXPR . GREATER_THAN MATH_EXPR
+   14         | MATH_EXPR . GREATER_THAN_EQUAL MATH_EXPR
+   15         | MATH_EXPR . EQUAL_EQUAL MATH_EXPR
+   16         | MATH_EXPR . NOT_EQUAL MATH_EXPR
+   22 DataVAL: MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    EQUAL_EQUAL         shift, and go to state 32
+    NOT_EQUAL           shift, and go to state 33
+    GREATER_THAN        shift, and go to state 34
+    GREATER_THAN_EQUAL  shift, and go to state 35
+    SMALLER_THAN        shift, and go to state 36
+    SMALLER_THAN_EQUAL  shift, and go to state 37
+    REMAINDER           shift, and go to state 38
+    MINUS               shift, and go to state 39
+    PLUS                shift, and go to state 40
+    DIVIDE              shift, and go to state 41
+    MULTIPLY            shift, and go to state 42
+    POWER               shift, and go to state 43
+
+    EQUAL_EQUAL  [reduce using rule 22 (DataVAL)]
+    NOT_EQUAL    [reduce using rule 22 (DataVAL)]
+    POWER        [reduce using rule 22 (DataVAL)]
+    $default     reduce using rule 22 (DataVAL)
+
+
+state 17
+
+   33 MATH_EXPR: UniaryEXP .
+
+    $default  reduce using rule 33 (MATH_EXPR)
+
+
+state 18
+
+   34 UniaryEXP: IDENTIFIER PLUS_PLUS .
+
+    $default  reduce using rule 34 (UniaryEXP)
+
+
+state 19
+
+   35 UniaryEXP: IDENTIFIER MINUS_MINUS .
+
+    $default  reduce using rule 35 (UniaryEXP)
+
+
+state 20
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+   18         | OBRACKET LOG_EXPR . CBRACKET
+
+    CBRACKET     shift, and go to state 44
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+
+state 21
+
+    5 LOG_EXPR: DataVAL .
+
+    $default  reduce using rule 5 (LOG_EXPR)
+
+
+state 22
+
+   11 LOG_EXPR: MATH_EXPR . SMALLER_THAN MATH_EXPR
+   12         | MATH_EXPR . SMALLER_THAN_EQUAL MATH_EXPR
+   13         | MATH_EXPR . GREATER_THAN MATH_EXPR
+   14         | MATH_EXPR . GREATER_THAN_EQUAL MATH_EXPR
+   15         | MATH_EXPR . EQUAL_EQUAL MATH_EXPR
+   16         | MATH_EXPR . NOT_EQUAL MATH_EXPR
+   22 DataVAL: MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+   32          | OBRACKET MATH_EXPR . CBRACKET
+
+    CBRACKET            shift, and go to state 45
+    EQUAL_EQUAL         shift, and go to state 32
+    NOT_EQUAL           shift, and go to state 33
+    GREATER_THAN        shift, and go to state 34
+    GREATER_THAN_EQUAL  shift, and go to state 35
+    SMALLER_THAN        shift, and go to state 36
+    SMALLER_THAN_EQUAL  shift, and go to state 37
+    REMAINDER           shift, and go to state 38
+    MINUS               shift, and go to state 39
+    PLUS                shift, and go to state 40
+    DIVIDE              shift, and go to state 41
+    MULTIPLY            shift, and go to state 42
+    POWER               shift, and go to state 43
+
+    CBRACKET     [reduce using rule 22 (DataVAL)]
+    EQUAL_EQUAL  [reduce using rule 22 (DataVAL)]
+    NOT_EQUAL    [reduce using rule 22 (DataVAL)]
+    POWER        [reduce using rule 22 (DataVAL)]
+    $default     reduce using rule 22 (DataVAL)
+
+
+state 23
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+   17         | NOT LOG_EXPR .
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    AND          [reduce using rule 17 (LOG_EXPR)]
+    OR           [reduce using rule 17 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 17 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 17 (LOG_EXPR)]
+    POWER        [reduce using rule 17 (LOG_EXPR)]
+    $default     reduce using rule 17 (LOG_EXPR)
+
+
+state 24
+
+   36 UniaryEXP: PLUS_PLUS IDENTIFIER .
+
+    $default  reduce using rule 36 (UniaryEXP)
+
+
+state 25
+
+   37 UniaryEXP: MINUS_MINUS IDENTIFIER .
+
+    $default  reduce using rule 37 (UniaryEXP)
+
+
+state 26
+
+    0 $accept: Root $end .
+
+    $default  accept
+
+
+state 27
+
+    6 LOG_EXPR: LOG_EXPR AND . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 46
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 28
+
+    7 LOG_EXPR: LOG_EXPR OR . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 47
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 29
+
+   10 LOG_EXPR: LOG_EXPR EQUAL_EQUAL . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 48
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 30
+
+    9 LOG_EXPR: LOG_EXPR NOT_EQUAL . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 49
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 31
+
+    8 LOG_EXPR: LOG_EXPR POWER . LOG_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    CHAR_VALUE   shift, and go to state 3
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 5
+    TRUE         shift, and go to state 6
+    FALSE        shift, and go to state 7
+    NOT          shift, and go to state 8
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    LOG_EXPR   go to state 50
+    DataVAL    go to state 21
+    MATH_EXPR  go to state 16
+    UniaryEXP  go to state 17
+
+
+state 32
+
+   15 LOG_EXPR: MATH_EXPR EQUAL_EQUAL . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 52
+    UniaryEXP  go to state 17
+
+
+state 33
+
+   16 LOG_EXPR: MATH_EXPR NOT_EQUAL . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 53
+    UniaryEXP  go to state 17
+
+
+state 34
+
+   13 LOG_EXPR: MATH_EXPR GREATER_THAN . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 54
+    UniaryEXP  go to state 17
+
+
+state 35
+
+   14 LOG_EXPR: MATH_EXPR GREATER_THAN_EQUAL . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 55
+    UniaryEXP  go to state 17
+
+
+state 36
+
+   11 LOG_EXPR: MATH_EXPR SMALLER_THAN . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 56
+    UniaryEXP  go to state 17
+
+
+state 37
+
+   12 LOG_EXPR: MATH_EXPR SMALLER_THAN_EQUAL . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 57
+    UniaryEXP  go to state 17
+
+
+state 38
+
+   30 MATH_EXPR: MATH_EXPR REMAINDER . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 58
+    UniaryEXP  go to state 17
+
+
+state 39
+
+   26 MATH_EXPR: MATH_EXPR MINUS . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 59
+    UniaryEXP  go to state 17
+
+
+state 40
+
+   27 MATH_EXPR: MATH_EXPR PLUS . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 60
+    UniaryEXP  go to state 17
+
+
+state 41
+
+   28 MATH_EXPR: MATH_EXPR DIVIDE . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 61
+    UniaryEXP  go to state 17
+
+
+state 42
+
+   29 MATH_EXPR: MATH_EXPR MULTIPLY . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 62
+    UniaryEXP  go to state 17
+
+
+state 43
+
+   31 MATH_EXPR: MATH_EXPR POWER . MATH_EXPR
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 63
+    UniaryEXP  go to state 17
+
+
+state 44
+
+   18 LOG_EXPR: OBRACKET LOG_EXPR CBRACKET .
+
+    $default  reduce using rule 18 (LOG_EXPR)
+
+
+state 45
+
+   32 MATH_EXPR: OBRACKET MATH_EXPR CBRACKET .
+
+    $default  reduce using rule 32 (MATH_EXPR)
+
+
+state 46
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    6         | LOG_EXPR AND LOG_EXPR .
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    AND          [reduce using rule 6 (LOG_EXPR)]
+    OR           [reduce using rule 6 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 6 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 6 (LOG_EXPR)]
+    POWER        [reduce using rule 6 (LOG_EXPR)]
+    $default     reduce using rule 6 (LOG_EXPR)
+
+
+state 47
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    7         | LOG_EXPR OR LOG_EXPR .
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    AND          [reduce using rule 7 (LOG_EXPR)]
+    OR           [reduce using rule 7 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 7 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 7 (LOG_EXPR)]
+    POWER        [reduce using rule 7 (LOG_EXPR)]
+    $default     reduce using rule 7 (LOG_EXPR)
+
+
+state 48
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+   10         | LOG_EXPR EQUAL_EQUAL LOG_EXPR .
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    AND          [reduce using rule 10 (LOG_EXPR)]
+    OR           [reduce using rule 10 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 10 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 10 (LOG_EXPR)]
+    POWER        [reduce using rule 10 (LOG_EXPR)]
+    $default     reduce using rule 10 (LOG_EXPR)
+
+
+state 49
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+    9         | LOG_EXPR NOT_EQUAL LOG_EXPR .
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+    POWER        shift, and go to state 31
+
+    AND          [reduce using rule 9 (LOG_EXPR)]
+    OR           [reduce using rule 9 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 9 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 9 (LOG_EXPR)]
+    POWER        [reduce using rule 9 (LOG_EXPR)]
+    $default     reduce using rule 9 (LOG_EXPR)
+
+
+state 50
+
+    6 LOG_EXPR: LOG_EXPR . AND LOG_EXPR
+    7         | LOG_EXPR . OR LOG_EXPR
+    8         | LOG_EXPR . POWER LOG_EXPR
+    8         | LOG_EXPR POWER LOG_EXPR .
+    9         | LOG_EXPR . NOT_EQUAL LOG_EXPR
+   10         | LOG_EXPR . EQUAL_EQUAL LOG_EXPR
+
+    AND          shift, and go to state 27
+    OR           shift, and go to state 28
+    EQUAL_EQUAL  shift, and go to state 29
+    NOT_EQUAL    shift, and go to state 30
+
+    AND          [reduce using rule 8 (LOG_EXPR)]
+    OR           [reduce using rule 8 (LOG_EXPR)]
+    EQUAL_EQUAL  [reduce using rule 8 (LOG_EXPR)]
+    NOT_EQUAL    [reduce using rule 8 (LOG_EXPR)]
+    $default     reduce using rule 8 (LOG_EXPR)
+
+
+state 51
+
+   32 MATH_EXPR: OBRACKET . MATH_EXPR CBRACKET
+
+    INT_VALUE    shift, and go to state 1
+    FLOAT_VALUE  shift, and go to state 2
+    IDENTIFIER   shift, and go to state 4
+    OBRACKET     shift, and go to state 51
+    PLUS_PLUS    shift, and go to state 9
+    MINUS_MINUS  shift, and go to state 10
+
+    MATH_EXPR  go to state 64
+    UniaryEXP  go to state 17
+
+
+state 52
+
+   15 LOG_EXPR: MATH_EXPR EQUAL_EQUAL MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 15 (LOG_EXPR)]
+    $default  reduce using rule 15 (LOG_EXPR)
+
+
+state 53
+
+   16 LOG_EXPR: MATH_EXPR NOT_EQUAL MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 16 (LOG_EXPR)]
+    $default  reduce using rule 16 (LOG_EXPR)
+
+
+state 54
+
+   13 LOG_EXPR: MATH_EXPR GREATER_THAN MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 13 (LOG_EXPR)]
+    $default  reduce using rule 13 (LOG_EXPR)
+
+
+state 55
+
+   14 LOG_EXPR: MATH_EXPR GREATER_THAN_EQUAL MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 14 (LOG_EXPR)]
+    $default  reduce using rule 14 (LOG_EXPR)
+
+
+state 56
+
+   11 LOG_EXPR: MATH_EXPR SMALLER_THAN MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 11 (LOG_EXPR)]
+    $default  reduce using rule 11 (LOG_EXPR)
+
+
+state 57
+
+   12 LOG_EXPR: MATH_EXPR SMALLER_THAN_EQUAL MATH_EXPR .
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    POWER     [reduce using rule 12 (LOG_EXPR)]
+    $default  reduce using rule 12 (LOG_EXPR)
+
+
+state 58
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   30          | MATH_EXPR REMAINDER MATH_EXPR .
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    REMAINDER  [reduce using rule 30 (MATH_EXPR)]
+    MINUS      [reduce using rule 30 (MATH_EXPR)]
+    PLUS       [reduce using rule 30 (MATH_EXPR)]
+    DIVIDE     [reduce using rule 30 (MATH_EXPR)]
+    MULTIPLY   [reduce using rule 30 (MATH_EXPR)]
+    POWER      [reduce using rule 30 (MATH_EXPR)]
+    $default   reduce using rule 30 (MATH_EXPR)
+
+
+state 59
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   26          | MATH_EXPR MINUS MATH_EXPR .
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    REMAINDER  [reduce using rule 26 (MATH_EXPR)]
+    $default   reduce using rule 26 (MATH_EXPR)
+
+
+state 60
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   27          | MATH_EXPR PLUS MATH_EXPR .
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    REMAINDER  [reduce using rule 27 (MATH_EXPR)]
+    $default   reduce using rule 27 (MATH_EXPR)
+
+
+state 61
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   28          | MATH_EXPR DIVIDE MATH_EXPR .
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43
+
+    REMAINDER  [reduce using rule 28 (MATH_EXPR)]
+    $default   reduce using rule 28 (MATH_EXPR)
+
+
+state 62
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   29          | MATH_EXPR MULTIPLY MATH_EXPR .
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+
+    REMAINDER  shift, and go to state 38
+    POWER      shift, and go to state 43
+
+    REMAINDER  [reduce using rule 29 (MATH_EXPR)]
+    $default   reduce using rule 29 (MATH_EXPR)
+
+
+state 63
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+   31          | MATH_EXPR POWER MATH_EXPR .
+
+    REMAINDER  shift, and go to state 38
+
+    REMAINDER  [reduce using rule 31 (MATH_EXPR)]
+    $default   reduce using rule 31 (MATH_EXPR)
+
+
+state 64
+
+   26 MATH_EXPR: MATH_EXPR . MINUS MATH_EXPR
+   27          | MATH_EXPR . PLUS MATH_EXPR
+   28          | MATH_EXPR . DIVIDE MATH_EXPR
+   29          | MATH_EXPR . MULTIPLY MATH_EXPR
+   30          | MATH_EXPR . REMAINDER MATH_EXPR
+   31          | MATH_EXPR . POWER MATH_EXPR
+   32          | OBRACKET MATH_EXPR . CBRACKET
+
+    CBRACKET   shift, and go to state 45
+    REMAINDER  shift, and go to state 38
+    MINUS      shift, and go to state 39
+    PLUS       shift, and go to state 40
+    DIVIDE     shift, and go to state 41
+    MULTIPLY   shift, and go to state 42
+    POWER      shift, and go to state 43

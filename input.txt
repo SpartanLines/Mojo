@@ -1,1 +1,5 @@
-int x=A+B;
+switch(z)
+{
+default:
+int z=1;
+}
