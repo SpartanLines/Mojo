@@ -984,7 +984,7 @@ return COMMA;
 case 33:
 YY_RULE_SETUP
 #line 55 "lexer.l"
-return TWO_DOTS;
+return COLON;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
