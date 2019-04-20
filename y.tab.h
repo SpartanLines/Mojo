@@ -70,44 +70,46 @@ extern int yydebug;
     MAIN = 280,
     INCLUDE = 281,
     HASH = 282,
-    SINGLE_QUOTE = 283,
-    DOUBLE_QUOTE = 284,
-    SEMI_COLON = 285,
-    COLON = 286,
-    OBRACKET = 287,
-    CBRACKET = 288,
-    OBRACE = 289,
-    CBRACE = 290,
-    OSQ_BRACKET = 291,
-    CSQ_BRACKET = 292,
-    COMMA = 293,
-    TWO_DOTS = 294,
-    TRUE = 295,
-    FALSE = 296,
-    AND = 297,
-    OR = 298,
-    EQUAL_EQUAL = 299,
-    NOT_EQUAL = 300,
-    GREATER_THAN = 301,
-    GREATER_THAN_EQUAL = 302,
-    SMALLER_THAN = 303,
-    SMALLER_THAN_EQUAL = 304,
-    NOT = 305,
-    REMAINDER = 306,
-    PLUS_EQUAL = 307,
-    MINUS_EQUAL = 308,
-    MULTIPLY_EQUAL = 309,
-    DIVIDE_EQUAL = 310,
-    PLUS_PLUS = 311,
-    MINUS_MINUS = 312,
-    EQUAL = 313,
-    CONST = 314,
-    VOID = 315,
-    MINUS = 316,
-    PLUS = 317,
-    DIVIDE = 318,
-    MULTIPLY = 319,
-    POWER = 320
+    CLASS = 283,
+    FUNC = 284,
+    SINGLE_QUOTE = 285,
+    DOUBLE_QUOTE = 286,
+    SEMI_COLON = 287,
+    COLON = 288,
+    OBRACKET = 289,
+    CBRACKET = 290,
+    OBRACE = 291,
+    CBRACE = 292,
+    OSQ_BRACKET = 293,
+    CSQ_BRACKET = 294,
+    COMMA = 295,
+    TWO_DOTS = 296,
+    TRUE = 297,
+    FALSE = 298,
+    AND = 299,
+    OR = 300,
+    EQUAL_EQUAL = 301,
+    NOT_EQUAL = 302,
+    GREATER_THAN = 303,
+    GREATER_THAN_EQUAL = 304,
+    SMALLER_THAN = 305,
+    SMALLER_THAN_EQUAL = 306,
+    NOT = 307,
+    REMAINDER = 308,
+    PLUS_EQUAL = 309,
+    MINUS_EQUAL = 310,
+    MULTIPLY_EQUAL = 311,
+    DIVIDE_EQUAL = 312,
+    PLUS_PLUS = 313,
+    MINUS_MINUS = 314,
+    EQUAL = 315,
+    CONST = 316,
+    VOID = 317,
+    MINUS = 318,
+    PLUS = 319,
+    DIVIDE = 320,
+    MULTIPLY = 321,
+    POWER = 322
   };
 #endif
 /* Tokens.  */
@@ -136,44 +138,46 @@ extern int yydebug;
 #define MAIN 280
 #define INCLUDE 281
 #define HASH 282
-#define SINGLE_QUOTE 283
-#define DOUBLE_QUOTE 284
-#define SEMI_COLON 285
-#define COLON 286
-#define OBRACKET 287
-#define CBRACKET 288
-#define OBRACE 289
-#define CBRACE 290
-#define OSQ_BRACKET 291
-#define CSQ_BRACKET 292
-#define COMMA 293
-#define TWO_DOTS 294
-#define TRUE 295
-#define FALSE 296
-#define AND 297
-#define OR 298
-#define EQUAL_EQUAL 299
-#define NOT_EQUAL 300
-#define GREATER_THAN 301
-#define GREATER_THAN_EQUAL 302
-#define SMALLER_THAN 303
-#define SMALLER_THAN_EQUAL 304
-#define NOT 305
-#define REMAINDER 306
-#define PLUS_EQUAL 307
-#define MINUS_EQUAL 308
-#define MULTIPLY_EQUAL 309
-#define DIVIDE_EQUAL 310
-#define PLUS_PLUS 311
-#define MINUS_MINUS 312
-#define EQUAL 313
-#define CONST 314
-#define VOID 315
-#define MINUS 316
-#define PLUS 317
-#define DIVIDE 318
-#define MULTIPLY 319
-#define POWER 320
+#define CLASS 283
+#define FUNC 284
+#define SINGLE_QUOTE 285
+#define DOUBLE_QUOTE 286
+#define SEMI_COLON 287
+#define COLON 288
+#define OBRACKET 289
+#define CBRACKET 290
+#define OBRACE 291
+#define CBRACE 292
+#define OSQ_BRACKET 293
+#define CSQ_BRACKET 294
+#define COMMA 295
+#define TWO_DOTS 296
+#define TRUE 297
+#define FALSE 298
+#define AND 299
+#define OR 300
+#define EQUAL_EQUAL 301
+#define NOT_EQUAL 302
+#define GREATER_THAN 303
+#define GREATER_THAN_EQUAL 304
+#define SMALLER_THAN 305
+#define SMALLER_THAN_EQUAL 306
+#define NOT 307
+#define REMAINDER 308
+#define PLUS_EQUAL 309
+#define MINUS_EQUAL 310
+#define MULTIPLY_EQUAL 311
+#define DIVIDE_EQUAL 312
+#define PLUS_PLUS 313
+#define MINUS_MINUS 314
+#define EQUAL 315
+#define CONST 316
+#define VOID 317
+#define MINUS 318
+#define PLUS 319
+#define DIVIDE 320
+#define MULTIPLY 321
+#define POWER 322
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -189,7 +193,7 @@ union YYSTYPE
 	char* identifier;       /* identifier name */
 	char* comment;
 
-#line 193 "y.tab.h" /* yacc.c:1909  */
+#line 197 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -22,7 +22,8 @@
 "string"    return STRING;
 "char"      return CHAR;
 "bool"      return BOOL;
-
+"Class"     return CLASS;
+"func"      return FUNC
 "true"      return TRUE;
 "false"     return FALSE;
     /* statements types */
@@ -89,6 +90,7 @@
 
 [_a-zA-z][_a-zA-Z0-9]* {return IDENTIFIER;}
 \n {mylineno++;}
+[ \t\r\v\f]+                ;
 
 
     /*
