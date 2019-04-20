@@ -85,7 +85,7 @@
 
 \'[A-Za-z0-9]\' {return CHAR_VALUE;}
 
-\"[\x23-\x7E \t !]*\" {return STRING;}
+\"[\x23-\x7E \t !]*\" {return STRING_VALUE;}
 
 [_a-zA-z][_a-zA-Z0-9]* {return IDENTIFIER;}
 \n {mylineno++;}

@@ -1119,7 +1119,7 @@ YY_RULE_SETUP
 case 60:
 YY_RULE_SETUP
 #line 88 "lexer.l"
-{return STRING;}
+{return STRING_VALUE;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
