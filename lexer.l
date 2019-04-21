@@ -37,6 +37,8 @@
 "default"   return DEFAULT;
 "elif"      return ELIF;
 "else"      return ELSE;
+"break"     return BREAK;
+"continue"  return CONTINUE;      
 "return" return RETURN;
 "main" return MAIN;
 "include" return INCLUDE;
@@ -44,7 +46,7 @@
     /* operators */
 "." return DOT;
 "'" return SINGLE_QUOTE;
-"\"" return DOUBLE_QUOTE;
+"\"\"" return DOUBLE_QUOTE;
 ";" return SEMI_COLON;
 "(" return OBRACKET;
 ")" return CBRACKET;
@@ -84,14 +86,13 @@
 
 (-)?[0-9]+[.][0-9]+  {return FLOAT_VALUE;}
 
-\'[A-Za-z0-9]\' {return CHAR_VALUE;}
+\'[A-Za-z0-9@&%$#!^()_*]\' {return CHAR_VALUE;}
 
 \"[\x23-\x7E \t !]*\" {return STRING_VALUE;}
 
 [_a-zA-z][_a-zA-Z0-9]* {return IDENTIFIER;}
 \n {mylineno++;}
 [ \t\r\v\f]+                ;
-
 
     /*
     ++

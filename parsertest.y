@@ -40,7 +40,7 @@
 
 %token <identifier> IDENTIFIER
 %token <comment> COMMENT
-%token IF THEN WHILE FOR SWITCH CASE DO DEFAULT ELIF ELSE RETURN MAIN INCLUDE HASH CLASS FUNC
+%token IF THEN WHILE FOR SWITCH CASE DO DEFAULT ELIF ELSE RETURN MAIN INCLUDE HASH CLASS FUNC BREAK CONTINUE
 %token SINGLE_QUOTE DOUBLE_QUOTE SEMI_COLON COLON OBRACKET CBRACKET OBRACE CBRACE OSQ_BRACKET CSQ_BRACKET COMMA TWO_DOTS DOT
 %token TRUE FALSE AND OR EQUAL_EQUAL NOT_EQUAL GREATER_THAN GREATER_THAN_EQUAL SMALLER_THAN SMALLER_THAN_EQUAL NOT
 %token REMAINDER PLUS_EQUAL MINUS_EQUAL MULTIPLY_EQUAL DIVIDE_EQUAL PLUS_PLUS MINUS_MINUS EQUAL
@@ -66,8 +66,13 @@ statement:declerations
           |switchstmt
           |assignments;
           |func_call
-          |classstmt;
+          |classstmt
+          |BREAK
+          |CONTINUE
+          |returnstmt
+          |blockstmt;
 
+returnstmt: RETURN DataVAL;
 //////////// class statement  ////////////
 
 classstmt: CLASS IDENTIFIER OBRACE vars funcs CBRACE;
@@ -112,6 +117,9 @@ switchcases:caselist DEFAULT COLON statements|DEFAULT COLON statements;
 caselist: case|case caselist;
 
 case: CASE OBRACKET DataVAL CBRACKET COLON statements;
+
+////////////  block decleration  ////////////
+blockstmt:OBRACE statements CBRACE;
 
 ////////////  function declerations and definitions  ////////////
 
