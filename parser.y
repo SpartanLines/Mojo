@@ -11,7 +11,7 @@
 nodeType *opr(int oper, int nops, ...); 
 nodeType *id(int index,int type,stateEnum state,char* name); 
 nodeType *con(int value,int type); 
-nodeType *getId(char* name;int scope)
+nodeType *getId(char* name,int scope);
 void freeNode(nodeType *p); 
 int ex(nodeType *p); 
 
@@ -61,12 +61,12 @@ int scope=0;
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
-%type <nPtr> MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec 
+%type <nPtr> MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
 %type <intValue> Data_Type
 %%
 Root:Program;
 
-Program:statements;
+Program:statements ;
 
 statements: statement|statement statements ;
 
@@ -262,6 +262,23 @@ nodeType * con(int value,int type){
              p->con.value = value;     
              return p;
 }
+nodeType *opr(int oper, int nops, ...) {    
+        va_list ap;     
+        nodeType *p;     
+        int i;     
+        /* allocate node, extending op array */     
+        if ((p = malloc(sizeof(nodeType) +(nops-1) * sizeof(nodeType *))) == NULL)
+                 yyerror("out of memory");
+        /* copy information */
+        p->type = typeOpr;    
+        p->opr.oper = oper;     
+        p->opr.nops = nops;     
+        va_start(ap, nops);
+        for (i = 0; i < nops; i++) 
+        p->opr.op[i] = va_arg(ap, nodeType*);
+             va_end(ap);
+     return p; 
+     }
 #include"lex.yy.c"
 
 void yyerror(char * s){
