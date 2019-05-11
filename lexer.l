@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "y.tab.h"
 	void extern yyerror(char*);
 	void invalidToken();
 	int mylineno = 1;

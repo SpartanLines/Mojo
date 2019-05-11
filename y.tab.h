@@ -190,7 +190,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 17 "parsertest.y" /* yacc.c:1909  */
+#line 26 "parser.y" /* yacc.c:1909  */
 
 	int intValue;	    /* integer value */
 	float floatValue;    /* float value */
@@ -198,8 +198,9 @@ union YYSTYPE
 	char* stringValue;    /* string value*/
 	char* identifier;       /* identifier name */
 	char* comment;
+        nodeType *nPtr;
 
-#line 203 "y.tab.h" /* yacc.c:1909  */
+#line 204 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
