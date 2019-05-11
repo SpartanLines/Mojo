@@ -69,21 +69,21 @@ int scope=0;
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
-%type <nPtr> Program declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
+%type <nPtr> elsestmt elifs elifstmt ifstmt ifstmts forstmt dowhilestmt whilestmt declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
 %type <intValue> Data_Type
 %%
 Root:Program;
 
-Program:statements {$$=ex($1) ;} ;
+Program:statements {ex($1);freeNode($1);} ;
 
 statements: statement {$$=$1;}
         |statement statements{$$=opr(SEMI_COLON,2,$1,$2);} ;
 
-statement:declerations{$$=$1;}
-          |ifstmts{$$=NULL;}
-          |forstmt{$$=NULL;}
-          |dowhilestmt{$$=NULL;}
-          |whilestmt{$$=NULL;}
+statement:declerations{$$=$1;}  
+          |ifstmts{$$=$1;}
+          |forstmt{$$=$1;}
+          |dowhilestmt{$$=$1;}
+          |whilestmt{$$=$1;}
           |switchstmt{$$=$1;}
           |func_call{$$=NULL;}
           |classstmt{$$=NULL;}
@@ -107,32 +107,33 @@ funcs: Func_Dec
         |funcs Func_Dec;
 //////////// if statement  ////////////
 
-ifstmts:ifstmt  {printf("if is working \n");}
-        |ifstmt elsestmt
-        |ifstmt elifs
-        |ifstmt elifs elsestmt;
+ifstmts:ifstmt  {$$=$1;}
+        |ifstmt elsestmt {$$=opr(SEMI_COLON,2,$1,$2);}
+        |ifstmt elifs {$$=opr(SEMI_COLON,2,$1,$2);}
+        |ifstmt elifs elsestmt {$$=opr(SEMI_COLON,3,$1,$2,$3);};
 
-ifstmt: IF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
+ifstmt: IF OBRACKET LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE{$$=opr(IF,2,$3,$7);};
 
-elifs: elifstmt| elifstmt elifs;
+elifs: elifstmt {$$=$1;}
+        | elifstmt elifs{$$=opr(SEMI_COLON,2,$1,$2);};
 
-elifstmt: ELIF OBRACKET LOG_EXPR CBRACKET OBRACE statements CBRACE;
+elifstmt: ELIF OBRACKET LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE {$$=opr(ELIF,2,$3,$7);};
 
-elsestmt: ELSE OBRACE statements CBRACE;
+elsestmt: ELSE OBRACE scopeIncr statements CBRACE {$$=opr(ELSE,1,$4);};
 
 scopeIncr:{$$=NULL;scope++;};
 
 //////////// for statement  ////////////
 
-forstmt:FOR OBRACKET Var_Dec LOG_EXPR SEMI_COLON LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE {printf("for loop is working \n");};
+forstmt:FOR OBRACKET Var_Dec LOG_EXPR SEMI_COLON LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE {$$=opr(FOR,4,$3,$4,$6,$10);scope--;};
 
 //////////// while statement  ////////////
 
-whilestmt:WHILE  OBRACKET  LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE {printf("WHILE loop is working \n");};
+whilestmt:WHILE  OBRACKET  LOG_EXPR CBRACKET OBRACE scopeIncr statements CBRACE {$$=opr(WHILE,2,$3,$7);scope--;};
 
 ////////////do  while statement  ////////////
 
-dowhilestmt:DO OBRACE statements CBRACE WHILE OBRACKET scopeIncr LOG_EXPR CBRACKET {printf("DO WHILE loop is working \n");};
+dowhilestmt:DO OBRACE statements CBRACE WHILE OBRACKET scopeIncr LOG_EXPR CBRACKET {$$=opr(DO,2,$3,$8);scope--;};
 
 ////////////  switch statement  ////////////
 
