@@ -19,6 +19,28 @@ struct Symbol_Table* getSymbol_Table(int type, int init, int used, int brace, ch
 	return data;
 }
 
+struct Symbol_Table * find(int ind)
+{
+	struct STNode *cur = head;
+
+	if (head == NULL)
+	{
+		return NULL;
+	}
+	while (cur->index != ind)
+	{
+		if (cur->next == NULL)
+		{
+			return NULL;
+		}
+		else
+		{
+			cur = cur->next;
+		}
+	}
+	return cur->data;
+}
+
 void setValue(int ind, char * val)
 {
 	Symbol_Table * E = find(ind);
@@ -93,22 +115,6 @@ void printList()
 	printf("]\n\n");
 }
 
-void printUsed(FILE *f)
-{
-	Print(f, true, true);
-}
-void printNotUsed(FILE *f)
-{
-	Print(f, true, false);
-}
-void printInit(FILE *f)
-{
-	Print(f, false, true);
-}
-void printNotInit(FILE *f)
-{
-	Print(f, false, false);
-}
 
 //UorI Used=true Init=false ------YorN Yes=true  Not=False
 void Print(FILE * f, bool UorI, bool YorN)
@@ -164,6 +170,26 @@ void Print(FILE * f, bool UorI, bool YorN)
 	}
 }
 
+
+void printUsed(FILE *f)
+{
+	Print(f, true, true);
+}
+void printNotUsed(FILE *f)
+{
+	Print(f, true, false);
+}
+void printInit(FILE *f)
+{
+	Print(f, false, true);
+}
+void printNotInit(FILE *f)
+{
+	Print(f, false, false);
+}
+
+
+
 //brace was included but not used
 bool nameUniqueInScope(char * name,int brace)
 {
@@ -198,7 +224,7 @@ struct STNode * deleteF()
 		return NULL;
 	}
 	struct STNode * temp = head;
-	
+
 	head = head->next;
 
 	return temp;
@@ -244,32 +270,4 @@ int length()
 		cur = cur->next;
 	}
 	return l;
-}
-
-
-struct Symbol_Table * find(int ind)
-{
-	struct STNode *cur = head;
-
-	if (head == NULL)
-	{
-		return NULL;
-	}
-	while (cur->index != ind)
-	{
-		if (cur->next == NULL)
-		{
-			return NULL;
-		}
-		else
-		{
-			cur = cur->next;
-		}
-	}
-	return cur->data;
-}
-
-void main()
-{
-	printf("a");
 }

@@ -4,7 +4,7 @@
 	#include <stdlib.h>
 	#include <stdarg.h>
 	#include <string.h>
-        #include "LinkedList.h"
+  #include "Symbol_T.h"
 	#define YYDEBUG 1
 
         int yyerror(char *);
@@ -13,14 +13,15 @@ int yylex(void);
 void ftoa(float n,char res[], int afterpoint);
 int yylineno;
 FILE * f1;
-FILE * f2; 
+FILE * f2;
 FILE * yyin;
-nodeType *opr(int oper, int nops, ...); 
-nodeType *id(int index,int type,permission state,int scope,char* name); 
-nodeType *con(char* value,int type); 
+nodeType *opr(int oper, int nops, ...);
+nodeType *id(int index,int type,permission state,int scope,char* name);
+nodeType *con(char* value,int type);
 nodeType * getId(char * name, int brace);
-void freeNode(nodeType *p); 
-int ex(nodeType *p); 
+int ex(nodeType *p) ;
+void freeNode(nodeType *p);
+int ex(nodeType *p);
 
   int yylex(void);
 
@@ -37,7 +38,7 @@ int scope=0;
 	char* stringValue;    /* string value*/
 	char* identifier;       /* identifier name */
 	char* comment;
-        nodeType *nPtr;
+  nodeType *nPtr;
 };
 %start Root
 
@@ -68,21 +69,37 @@ int scope=0;
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
+<<<<<<< HEAD
 %type <nPtr> elsestmt elifs elifstmt ifstmt ifstmts forstmt dowhilestmt whilestmt declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
+=======
+%type <nPtr> Program declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
+>>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
 %type <intValue> Data_Type
 %%
 Root:Program;
 
+<<<<<<< HEAD
 Program:statements {ex($1);freeNode($1);} ;
+=======
+Program:statements {$$=ex($1) ;} ;
+>>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
 
 statements: statement {$$=$1;}
         |statement statements{$$=opr(SEMI_COLON,2,$1,$2);} ;
 
+<<<<<<< HEAD
 statement:declerations{$$=$1;}  
           |ifstmts{$$=$1;}
           |forstmt{$$=$1;}
           |dowhilestmt{$$=$1;}
           |whilestmt{$$=$1;}
+=======
+statement:declerations{$$=$1;}
+          |ifstmts{$$=NULL;}
+          |forstmt{$$=NULL;}
+          |dowhilestmt{$$=NULL;}
+          |whilestmt{$$=NULL;}
+>>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
           |switchstmt{$$=$1;}
           |func_call{$$=NULL;}
           |classstmt{$$=NULL;}
@@ -159,8 +176,8 @@ Func_Dec: FUNC IDENTIFIER Args super_data_type OBRACE statements CBRACE
 Args:OBRACKET CBRACKET
      | OBRACKET Args_list CBRACKET;
 
-Args_list: Data_Type IDENTIFIER 
-        | Data_Type OSQ_BRACKET CSQ_BRACKET IDENTIFIER 
+Args_list: Data_Type IDENTIFIER
+        | Data_Type OSQ_BRACKET CSQ_BRACKET IDENTIFIER
         | Args_list COMMA Data_Type IDENTIFIER;
 
 //////////// Variable Declarations and Definition ////////////
@@ -177,7 +194,7 @@ Var_Dec:CONST Data_Type IDENTIFIER EQUAL Expr SEMI_COLON {$$=opr(EQUAL,2,id(inde
         |Data_Type IDENTIFIER EQUAL Expr SEMI_COLON {$$=opr(EQUAL,2,id(indexCount,$1,Valid,scope,$2),$4);indexCount++;}
         |IDENTIFIER EQUAL Expr {$$=opr(EQUAL,2,getId($1,scope),$3);}
         |Data_Type IDENTIFIER SEMI_COLON{$$=id(indexCount,$1,Valid,scope,$2);indexCount++;} ;
-        
+
 Arr_Dec:CONST array_data_type Array_Assign SEMI_COLON
         |array_data_type Array_Assign SEMI_COLON;
 
@@ -194,7 +211,7 @@ super_data_type:array_data_type|Data_Type;
 array_data_type:Data_Type OSQ_BRACKET CSQ_BRACKET
                 |Data_Type OSQ_BRACKET INT_VALUE CSQ_BRACKET;
 
-Data_Type: INT {$$=0;} 
+Data_Type: INT {$$=0;}
         | FLOAT {$$=1;}
         | BOOL {$$=4;}
         | STRING {$$=2;}
@@ -204,9 +221,9 @@ Data_Type: INT {$$=0;}
 
 
 ////generic_assign:Assign SEMI_COLON {printf("Variable Assign is working \n");}
-////              |IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET EQUAL Expr; 
+////              |IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET EQUAL Expr;
 
-identifier_list: IDENTIFIER 
+identifier_list: IDENTIFIER
                 |IDENTIFIER COMMA identifier_list ;
 
 func_call: IDENTIFIER OBRACKET identifier_list CBRACKET
@@ -219,7 +236,7 @@ DataVAL: CHAR_VALUE {$$=con($1,3);}
         |TRUE {$$=con("true",4);}
             |FALSE {$$=con("false",4);}
             |MATH_EXPR {$$=$1;};
-            
+
 
 LOG_EXPR: LOG_EXPR AND DataVAL {$$=opr(AND,2,$1,$3);}
           | LOG_EXPR OR DataVAL {$$=opr(OR,2,$1,$3);}
@@ -248,10 +265,10 @@ MATH_EXPR:Casting {$$=$1;}
 Casting: MATH_CALC {$$=$1;}
 /////        | OBRACKET Data_Type CBRACKET MATH_CALC {$$=opr(CASTING,2,$2,$4);};
 
-MATH_CALC: INT_VALUE { char c[] = {};sprintf(c,"%d",$1); $$ = con(c, 0); } 
-        |FLOAT_VALUE { char c[] = {}; ftoa($1, c, 6); $$ = con(c, 1); } 
+MATH_CALC: INT_VALUE { char c[] = {};sprintf(c,"%d",$1); $$ = con(c, 0); }
+        |FLOAT_VALUE { char c[] = {}; ftoa($1, c, 6); $$ = con(c, 1); }
         |IDENTIFIER {$$=getId($1,scope);}
-//|IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET{$$=id($1);} 
+//|IDENTIFIER OSQ_BRACKET INT_VALUE CSQ_BRACKET{$$=id($1);}
 // |func_call{$$=id($1);};
 
 
@@ -263,28 +280,28 @@ UniaryEXP: IDENTIFIER PLUS_PLUS {$$=opr(PLUS_PLUS,1,$1);}
 %%
 nodeType *id(int index,int type,permission state,int scope,char* name){
         nodeType *p;
-        if ((p = malloc(sizeof(nodeType))) == NULL)         
+        if ((p = malloc(sizeof(nodeType))) == NULL)
              yyerror("out of memory");
         if (!nameUniqueInScope(name,scope))
 	{
 		yyerrorvar("Identifier name already defined before in this scope",name);
 	}
-             p->type=typeId;  
-             p->id.index = index;     
+             p->type=typeId;
+             p->id.index = index;
              p->id.type = type;
              p->id.state=state;
-             p->id.name=strdup(name);  
+             p->id.name=strdup(name);
         int init = 0;
         int used = 0;
         struct SymTableData * data1 = getSymTableData(type,init,used,scope,name,state);
-        insertFirst(index,data1); 
+        insertFirst(index,data1);
 
 
              return p;
 
 }
 nodeType *getId(char* name,int scope){
-        
+
         int index = getIndex(name,scope);
 
 	if (index == -1)
@@ -295,14 +312,14 @@ nodeType *getId(char* name,int scope){
 	{
 		nodeType *p;
 		struct SymTableData * node = find(index);
-	    
+
 	    /* allocate node */
-	    if ((p = malloc(sizeof(nodeType))) == NULL)         
+	    if ((p = malloc(sizeof(nodeType))) == NULL)
 			yyerror("out of memory");
 
 	    /* copy information */
 	    p->type = typeId;
-	    
+
 	    p->id.index = index;
 	    p->id.type 	= node->symType;
 	    p->id.state = node->symPerm;
@@ -313,30 +330,30 @@ nodeType *getId(char* name,int scope){
 }
 nodeType * con(char * value,int type){
         nodeType *p;
-        if ((p = malloc(sizeof(nodeType))) == NULL)         
+        if ((p = malloc(sizeof(nodeType))) == NULL)
         yyerror("out of memory");
-             /* copy information */   
-             p->type=typeCon;  
-             p->con.type = type;     
-             p->con.value = strdup(value);     
+             /* copy information */
+             p->type=typeCon;
+             p->con.type = type;
+             p->con.value = strdup(value);
              return p;
 }
-nodeType *opr(int oper, int nops, ...) {    
-        va_list ap;     
-        nodeType *p;     
-        int i;     
-        /* allocate node, extending op array */     
+nodeType *opr(int oper, int nops, ...) {
+        va_list ap;
+        nodeType *p;
+        int i;
+        /* allocate node, extending op array */
         if ((p = malloc(sizeof(nodeType) +(nops-1) * sizeof(nodeType *))) == NULL)
                  yyerror("out of memory");
         /* copy information */
-        p->type = typeOpr;    
-        p->opr.operNum = oper;     
-        p->opr.nopers = nops;     
+        p->type = typeOpr;
+        p->opr.operNum = oper;
+        p->opr.nopers = nops;
         va_start(ap, nops);
-        for (i = 0; i < nops; i++) 
+        for (i = 0; i < nops; i++)
         p->opr.op[i] = va_arg(ap, nodeType*);
              va_end(ap);
-     return p; 
+     return p;
      }
 
 void freeNode(nodeType *p)
@@ -351,7 +368,7 @@ void freeNode(nodeType *p)
     free (p);
 }
 
-void reverse(char *str, int len) 
+void reverse(char *str, int len)
 {
 	int i=0, j=len-1, temp;
 	while (i<j)
@@ -363,7 +380,7 @@ void reverse(char *str, int len)
 	}
 }
 
-int toStr(int x, char str[], int d) 
+int toStr(int x, char str[], int d)
 {
 	int i = 0;
 	while (x)
@@ -371,35 +388,35 @@ int toStr(int x, char str[], int d)
 		str[i++] = (x%10) + '0';
 		x = x/10;
 	}
- 
+
 	// If number of digits required is more, then
 	// add 0s at the beginning
 	while (i < d)
 		str[i++] = '0';
- 
+
 	reverse(str, i);
 	str[i] = '\0';
 	return i;
 }
 
-void ftoa(float n, char res[], int afterpoint) 
+void ftoa(float n, char res[], int afterpoint)
 {
-	
+
 	// Extract integer part
 	int ipart = (int)n;
- 
+
 	// Extract floating part
 	float fpart = n - (float)ipart;
-	
- 
+
+
 	// convert integer part to string
 	int i = toStr(ipart, res, 0);
- 
+
 	// check for display option after point
 	if (afterpoint != 0)
 	{
 		res[i] = '.';  // add dot
- 
+
 		// Get the value of fraction part upto given no.
 		// of points after dot. The third parameter is needed
 		// to handle cases like 233.007
@@ -408,60 +425,60 @@ void ftoa(float n, char res[], int afterpoint)
 	}
 }
 
-int yyerror(char *s) 
-{ 
+int yyerror(char *s)
+{
 	fclose(f1);
-	remove("output.txt"); 
+	remove("output.txt");
 	f1=fopen("output.txt","w");
-	fprintf(f1, "Syntax Error Could not parse quadruples\n"); 
-	fprintf(f1, "line number : %d %s\n", yylineno,s);    
- 
+	fprintf(f1, "Syntax Error Could not parse quadruples\n");
+	fprintf(f1, "line number : %d %s\n", yylineno,s);
+
  	fclose(f2);
 	remove("symbol.txt");
 	f2 = fopen("symbol.txt","w");
 	fprintf(f2, "Syntax Error was Found\n");
- 	fprintf(stderr, "line number : %d %s\n", yylineno,s);    
- 
+ 	fprintf(stderr, "line number : %d %s\n", yylineno,s);
+
 	exit(0);
 }
- 
-int yyerrorvar(char *s, char *var) 
+
+int yyerrorvar(char *s, char *var)
 {
 	fclose(f1);
 	int x = remove("output.txt");
 	f1 = fopen("output.txt","w");
 	fprintf(f1, "Syntax Error Could not parse quadruples\n");
  	fprintf(f1, "line number: %d %s : %s\n", yylineno,s,var);
-	
+
 	fclose(f2);
 	x = remove("symbol.txt");
 	f2 = fopen("symbol.txt","w");
 	fprintf(f2, "Syntax Error was Found\n");
  	fprintf(f2, "line number: %d %s : %s\n", yylineno,s,var);
-	
+
  	exit(0);
 }
 
-int main(void) 
-{   
+int main(void)
+{
 	yyin = fopen("input.txt", "r");
-	f1 = fopen("output.txt","w");
-	f2 = fopen("symbol.txt","w");
-	
+	file1 = fopen("output.txt","w");
+	file2 = fopen("symbol.txt","w");
+
 	if(!yyparse())
 	{
 		printf("\nParsing complete\n");
-		
+
 		//fprintf(f2,"\n");
-		
+
 		printInit(f2);
 		printNotInit(f2);
-		
+
 		fprintf(f2,"-----------------------------------------------\n\n");
-	
+
 		printUsed(f2);
 		printNotUsed(f2);
-		
+
 	}
 	else
 	{

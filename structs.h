@@ -14,7 +14,7 @@ typedef struct {
     typeEnum type;
     char* name;
 
-    
+
 } idNodeType;
 
 typedef struct {
@@ -32,3 +32,8 @@ typedef struct nodeTypeTag{
         oprNodeType opr;
     };
 } nodeType;
+
+extern FILE* file1;
+extern FILE* file2;
+extern int yyerror(char *);
+extern int yyerrorvar(char *s, char *var);
