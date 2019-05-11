@@ -8,6 +8,7 @@ int LeftHandSideType;
 int RightHandSideType;
 int CurrentRegister=0;
 int Label=0;
+int Dec_Without_Assignment=0;
 
 
 ///{Int,Float,String,Char,Bool,ConstInt,ConstFloat,ConstString,ConstChar,ConstBool}
@@ -57,17 +58,30 @@ int ex(nodeType * Temp)
     }
 
     printf("\t MOV R%01d, %s \n",CurrentRegister,Temp->con.value);
-    CurrentRegister++;
+    CurrentRegister=CurrentRegister+1;
+
+    break;
 
     case typeId:
     RightHandSideType=Temp->id.type;
 
-    if()
-
+    if(Dec_Without_Assignment)
+    {
+      printf("\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
+      CurrentRegister=CurrentRegister+1;
+    }
+    else
+    {
+      printf("\t MOV R%01d, %s \n",CurrentRegister,Temp->id.);
+      printf("\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
+      CurrentRegister=CurrentRegister+1;
+    }
+    break;
 
 
 
     case typeOpr:
+
 
     switch (Temp->opr.operNum) {
 
