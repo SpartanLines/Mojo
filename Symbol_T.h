@@ -23,4 +23,4 @@ typedef struct STNode
 	struct Symbol_Table * data;
 	int index;
 	struct STNode * next;
-} STNode
+} STNode;
