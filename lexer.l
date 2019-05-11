@@ -6,11 +6,8 @@
 #include "y.tab.h"
 	void extern yyerror(char*);
 	void invalidToken();
-	int mylineno = 1;
 %}
 
-/* This tells flex to read only one input file */
-%option noyywrap
 
  /* [&%|(){}!/+-*[]] return yytext[0];
  */
@@ -83,16 +80,31 @@
 "=" return EQUAL;
 "//" return COMMENT;
 
-(-)?[0-9]+  {return INT_VALUE;}
+(-)?[0-9]+  { 
+            yylval.iValue = atoi(yytext);
+            return INT_VALUE;
+            }
 
-(-)?[0-9]+[.][0-9]+  {return FLOAT_VALUE;}
+(-)?[0-9]+[.][0-9]+  {
+            yylval.fValue=atof(yytext);
+            return FLOAT_VALUE;
+            }
 
-\'[A-Za-z0-9@&%$#!^()_*]\' {return CHAR_VALUE;}
+\'[A-Za-z0-9@&%$#!^()_*]\' {
+             yylval.cValue=strdup(yytext);
+             return CHAR_VALUE;
+              }
 
-\"[\x23-\x7E \t !]*\" {return STRING_VALUE;}
+\"[\x23-\x7E \t !]*\" {
+            yylval.sValue=strdup(yytext);
+            return STRING_VALUE;
+            }
 
-[_a-zA-z][_a-zA-Z0-9]* {return IDENTIFIER;}
-\n {mylineno++;}
+[_a-zA-z][_a-zA-Z0-9]* {
+            yylval.id=strdup(yytext);
+            return IDENTIFIER;
+            }
+\n {yylineno=yylineno+1;}
 [ \t\r\v\f]+                ;
 
     /*
@@ -115,3 +127,5 @@
 
 %%
 /*** C Code section ***/
+int yywrap(void)
+{ return 1; } 
