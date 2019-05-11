@@ -24,7 +24,7 @@
 "char"      return CHAR;
 "bool"      return BOOL;
 "Class"     return CLASS;
-"func"      return FUNC
+"func"      return FUNC;
 "true"      return TRUE;
 "false"     return FALSE;
     /* statements types */
@@ -39,7 +39,7 @@
 "elif"      return ELIF;
 "else"      return ELSE;
 "break"     return BREAK;
-"continue"  return CONTINUE;      
+"continue"  return CONTINUE;
 "return" return RETURN;
 "main" return MAIN;
 "include" return INCLUDE;

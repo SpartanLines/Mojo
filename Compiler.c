@@ -40,7 +40,7 @@ int ex(nodeType * Temp)
     if(LeftHandSideType==0 || LeftHandSideType == 5)
     {
       if(RightHandSideType==1 || RightHandSideType==6 )
-      { printf("Warning: Assigning Float to Integer \n");
+      { fprintf(file1,"Warning: Assigning Float to Integer \n");
         //strcat(Temp->con.value,".0");
       }
     }
@@ -48,7 +48,7 @@ int ex(nodeType * Temp)
     if(LeftHandSideType==1 || LeftHandSideType == 6)
     {
       if(RightHandSideType==0|| RightHandSideType==5 )
-      { printf("Warning: Assigning Float to Integer \n");
+      { fprintf(file1,"Warning: Assigning Float to Integer \n");
       }
     }
 
@@ -56,11 +56,11 @@ int ex(nodeType * Temp)
     {
       if(RightHandSideType==3|| RightHandSideType==8 )
       {
-        printf("Warning: Assigning Char to String\n");
+        fprintf(file1,"Warning: Assigning Char to String\n");
       }
     }
 
-    printf("\t MOV R%01d, %d \n",CurrentRegister,Temp->con.);
+    fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,Temp->con.value);
     CurrentRegister=CurrentRegister+1;
 
     break;
@@ -70,13 +70,13 @@ int ex(nodeType * Temp)
 
     if(Dec_With_Assignment)
     {
-      printf("\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
+      fprintf(file1,"\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
       CurrentRegister=CurrentRegister+1;
     }
     else
     {
-      printf("\t MOV R%01d, %s \n",CurrentRegister,"NONE");
-      printf("\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
+      fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,"NONE");
+      fprintf(file1,"\t MOV %s,R%01d  \n",Temp->id.name,CurrentRegister);
       CurrentRegister=CurrentRegister+1;
     }
     break;
@@ -88,7 +88,7 @@ int ex(nodeType * Temp)
 
     switch (Temp->opr.operNum) {
 
-      case ASSIGN:
+      case EQUAL:
       LeftHandSideType=Temp->opr.op[0]->id.type;
       int Permission = Temp->opr.op[0]->id.state;
       struct Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
@@ -121,7 +121,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t ADD R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t ADD R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
 
     }
     else
@@ -138,7 +138,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t SUB R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t SUB R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
 
@@ -157,7 +157,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t DIV R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t DIV R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -175,7 +175,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t MUL R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t MUL R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -192,7 +192,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t REM R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t REM R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -207,7 +207,7 @@ int ex(nodeType * Temp)
     T1=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6))
     {
-      printf("\t NOT R%01d\n", CurrentRegister);
+      fprintf(file1,"\t NOT R%01d\n", CurrentRegister);
     }
     else
     {
@@ -217,12 +217,12 @@ int ex(nodeType * Temp)
 
 
     case PLUS_PLUS:
-    struct Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
+    Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
     if(Entry!=NULL)
     {
-      printf("\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
-      printf("\t INC R%01d \n",CurrentRegister);
-      printf("\t MOV %s, R%01d  \n",Entry->S_Name,CurrentRegister);
+      fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
+      fprintf(file1,"\t INC R%01d \n",CurrentRegister);
+      fprintf(file1,"\t MOV %s, R%01d  \n",Entry->S_Name,CurrentRegister);
       CurrentRegister=CurrentRegister+1;
 
     }
@@ -233,12 +233,12 @@ int ex(nodeType * Temp)
     }
 
     case MINUS_MINUS:
-    struct Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
+    Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
     if(Entry!=NULL)
     {
-      printf("\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
-      printf("\t DEC R%01d \n",CurrentRegister);
-      printf("\t MOV %s, R%01d  \n",Entry->S_Name,CurrentRegister);
+      fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
+      fprintf(file1,"\t DEC R%01d \n",CurrentRegister);
+      fprintf(file1,"\t MOV %s, R%01d  \n",Entry->S_Name,CurrentRegister);
       CurrentRegister=CurrentRegister+1;
     }
     else
@@ -255,7 +255,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t AND R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t AND R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -272,7 +272,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t AND R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t AND R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -289,7 +289,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t CMPGT R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t CMPGT R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -307,7 +307,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t CMPGTE R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t CMPGTE R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -324,7 +324,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t CMPST R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t CMPST R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -342,7 +342,7 @@ int ex(nodeType * Temp)
     T2=RightHandSideType;
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
-      printf("\t CMPSTE R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t CMPSTE R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -360,7 +360,7 @@ int ex(nodeType * Temp)
     if(((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
         || ((T1 == 2 || T1 == 3 || T1 == 7 || T1 == 8) && (T2 == 2 || T2 == 3 || T2 == 7 || T2 == 8)))
     {
-      printf("\t EQEQ R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t EQEQ R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
@@ -378,7 +378,7 @@ int ex(nodeType * Temp)
     if(((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
         || ((T1 == 2 || T1 == 3 || T1 == 7 || T1 == 8) && (T2 == 2 || T2 == 3 || T2 == 7 || T2 == 8)))
     {
-      printf("\t NOTEQ R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
+      fprintf(file1,"\t NOTEQ R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
       R1=R1+1;
       R2=R2+1;
     }
