@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Symbol_T.c"
+#include "Symbol_T.h"
+#include "y.tab.h"
 
 int LeftHandSideType;
 int RightHandSideType;
@@ -16,8 +17,10 @@ int Dec_With_Assignment=0;
 
 int ex(nodeType * Temp)
 {
+  printf("Compiler");
   int T1;
   int T2;
+  Symbol_Table *Entry;
   if (!Temp) return 0;
 
   switch(Temp->type)
@@ -85,13 +88,12 @@ int ex(nodeType * Temp)
 
     case typeOpr:
 
-
     switch (Temp->opr.operNum) {
 
       case EQUAL:
       LeftHandSideType=Temp->opr.op[0]->id.type;
       int Permission = Temp->opr.op[0]->id.state;
-      struct Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
+      Entry=find(Temp->opr.op[0]->id.index);
 
       if (Permission==3)
       {
@@ -110,6 +112,7 @@ int ex(nodeType * Temp)
       }
 
       setInit(Temp->opr.op[0]->id.index);
+      break;
 
 
 
@@ -122,13 +125,13 @@ int ex(nodeType * Temp)
     if((T1 == 0 || T1 == 1 || T1 == 5 || T1 == 6) && (T2 == 0 || T2 == 1 || T2 == 5 || T2 == 6))
     {
       fprintf(file1,"\t ADD R%01d, R%01d, R%01d \n", CurrentRegister, R1, R2);
-
     }
     else
     {
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
 
     case MINUS:
@@ -148,7 +151,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
-
+    break;
 
     case DIVIDE:
     ex(Temp->opr.op[0]);
@@ -166,6 +169,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
 
     case MULTIPLY:
@@ -184,6 +188,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case REMAINDER:
     ex(Temp->opr.op[0]);
@@ -201,6 +206,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case NOT:
     ex(Temp->opr.op[0]);
@@ -214,26 +220,26 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
 
     case PLUS_PLUS:
-    Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
+    Entry=find(Temp->opr.op[0]->id.index);
     if(Entry!=NULL)
     {
       fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
       fprintf(file1,"\t INC R%01d \n",CurrentRegister);
       fprintf(file1,"\t MOV %s, R%01d  \n",Entry->S_Name,CurrentRegister);
       CurrentRegister=CurrentRegister+1;
-
     }
     else
     {
       yyerror("Error: Variable is Undeclared \n");
-      break;
     }
+    break;
 
     case MINUS_MINUS:
-    Symbol_Table *Entry=find(Temp->opr.op[0]->id.index);
+    Entry=find(Temp->opr.op[0]->id.index);
     if(Entry!=NULL)
     {
       fprintf(file1,"\t MOV R%01d, %s \n",CurrentRegister,Entry->S_Name);
@@ -244,8 +250,8 @@ int ex(nodeType * Temp)
     else
     {
       yyerror("Error: Variable is Undeclared \n");
-      break;
     }
+    break;
 
 
     case AND:
@@ -264,6 +270,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case OR:
     ex(Temp->opr.op[0]);
@@ -281,6 +288,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case GREATER_THAN:
     ex(Temp->opr.op[0]);
@@ -298,6 +306,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
 
     case GREATER_THAN_EQUAL:
@@ -316,6 +325,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case SMALLER_THAN:
     ex(Temp->opr.op[0]);
@@ -333,6 +343,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
 
     case SMALLER_THAN_EQUAL:
@@ -351,6 +362,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case EQUAL_EQUAL:
     ex(Temp->opr.op[0]);
@@ -369,6 +381,7 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
+    break;
 
     case NOT_EQUAL:
     ex(Temp->opr.op[0]);
@@ -387,13 +400,10 @@ int ex(nodeType * Temp)
       yyerror("Error: incompatible types for addition ");
     }
     Dec_With_Assignment = 0;
-
-
-    default:
     break;
 
   }
+
   }
-
-
+return 0;
 }
