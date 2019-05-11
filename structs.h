@@ -4,7 +4,7 @@ typedef enum {Valid,OutOfScope,Undeclared,Constant,Uninitialized} permission;
 
 /* Constants */
 typedef struct {
-    int value;
+    char* value;
     typeEnum type;
 } conNodeType;
 
