@@ -69,37 +69,21 @@ int scope=0;
 %right DIVIDE
 %left   MULTIPLY
 %left POWER
-<<<<<<< HEAD
 %type <nPtr> elsestmt elifs elifstmt ifstmt ifstmts forstmt dowhilestmt whilestmt declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
-=======
-%type <nPtr> Program declerations returnstmt statement statements blockstmt case caselist switchcases switchstmt MATH_CALC Casting UniaryEXP MATH_EXPR DataVAL LOG_EXPR Expr Var_Dec scopeIncr
->>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
 %type <intValue> Data_Type
 %%
 Root:Program;
 
-<<<<<<< HEAD
 Program:statements {ex($1);freeNode($1);} ;
-=======
-Program:statements {$$=ex($1) ;} ;
->>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
 
 statements: statement {$$=$1;}
         |statement statements{$$=opr(SEMI_COLON,2,$1,$2);} ;
 
-<<<<<<< HEAD
 statement:declerations{$$=$1;}  
           |ifstmts{$$=$1;}
           |forstmt{$$=$1;}
           |dowhilestmt{$$=$1;}
           |whilestmt{$$=$1;}
-=======
-statement:declerations{$$=$1;}
-          |ifstmts{$$=NULL;}
-          |forstmt{$$=NULL;}
-          |dowhilestmt{$$=NULL;}
-          |whilestmt{$$=NULL;}
->>>>>>> d8a819da838293cd474e8691df23a7d0cf2dab15
           |switchstmt{$$=$1;}
           |func_call{$$=NULL;}
           |classstmt{$$=NULL;}
