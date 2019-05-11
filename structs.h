@@ -1,6 +1,6 @@
 typedef enum {typeCon,typeId,typeOpr} nodeEnum;
 typedef enum {Int,Float,String,Char,Bool,ConstInt,ConstFloat,ConstString,ConstChar,ConstBool} typeEnum;
-typedef enum {Valid,OutOfScope,Undeclared,Constant,Uninitialized} stateEnum;
+typedef enum {Valid,OutOfScope,Undeclared,Constant,Uninitialized} permission;
 
 /* Constants */
 typedef struct {
@@ -10,7 +10,7 @@ typedef struct {
 
 typedef struct {
     int index;
-    stateEnum state;
+    permission state;
     typeEnum type;
     char* name;
 
@@ -30,5 +30,5 @@ typedef struct nodeTypeTag{
         conNodeType con;
         idNodeType  id;
         oprNodeType opr;
-    }
-}nodeType;
+    };
+} nodeType;
