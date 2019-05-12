@@ -4,7 +4,8 @@
 	#include <stdlib.h>
 	#include <stdarg.h>
 	#include <string.h>
-  #include "Symbol_T.h"
+        #include "LinkedList.h"
+        #include <math.h>
 	#define YYDEBUG 1
 
         int yyerror(char *);
@@ -38,7 +39,7 @@ int scope=0;
 	char* stringValue;    /* string value*/
 	char* identifier;       /* identifier name */
 	char* comment;
-  nodeType *nPtr;
+        nodeType *nPtr;
 };
 %start Root
 
@@ -331,8 +332,9 @@ nodeType *opr(int oper, int nops, ...) {
                  yyerror("out of memory");
         /* copy information */
         p->type = typeOpr;
-        p->opr.operNum = oper;
-        p->opr.nopers = nops;
+        p->opr.oper = oper;
+        p->opr.nops = nops;
+        printf("operation is: %d",oper);
         va_start(ap, nops);
         for (i = 0; i < nops; i++)
         p->opr.op[i] = va_arg(ap, nodeType*);
@@ -346,7 +348,7 @@ void freeNode(nodeType *p)
 
     if (!p) return;
     if (p->type == typeOpr) {
-        for (i = 0; i < p->opr.nopers; i++)
+        for (i = 0; i < p->opr.nops; i++)
             freeNode(p->opr.op[i]);
     }
     free (p);
@@ -446,8 +448,8 @@ int yyerrorvar(char *s, char *var)
 int main(void)
 {
 	yyin = fopen("input.txt", "r");
-	file1 = fopen("output.txt","w");
-	file2 = fopen("symbol.txt","w");
+	f1 = fopen("output.txt","w");
+	f2 = fopen("symbol.txt","w");
 
 	if(!yyparse())
 	{

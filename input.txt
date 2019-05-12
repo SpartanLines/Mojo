@@ -1,5 +1,5 @@
-switch(z)
-{
-default:
-int z=1;
+int z;
+
+while(z<5){
+    z=z+1
 }

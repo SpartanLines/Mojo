@@ -1,6 +1,7 @@
 typedef enum {typeCon,typeId,typeOpr} nodeEnum;
 typedef enum {Int,Float,String,Char,Bool,ConstInt,ConstFloat,ConstString,ConstChar,ConstBool} typeEnum;
 typedef enum {Valid,OutOfScope,Undeclared,Constant,Uninitialized} permission;
+typedef enum {var,func,array} varType;
 
 /* Constants */
 typedef struct {
@@ -19,8 +20,8 @@ typedef struct {
 
 typedef struct {
     int value;
-    int operNum;
-    int nopers;
+    int oper;
+    int nops;
     struct nodeTypeTag *op[1];
 } oprNodeType;
 
@@ -33,7 +34,7 @@ typedef struct nodeTypeTag{
     };
 } nodeType;
 
-extern FILE* file1;
-extern FILE* file2;
+extern FILE* f1;
+extern FILE* f2;
 extern int yyerror(char *);
 extern int yyerrorvar(char *s, char *var);

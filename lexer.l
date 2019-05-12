@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "structs.h"
 #include "y.tab.h"
-	void extern yyerror(char*);
-	void invalidToken();
+
+ int yyerror(char *);
+ 	void invalidToken();
 %}
 
 
@@ -81,27 +83,27 @@
 "//" return COMMENT;
 
 (-)?[0-9]+  { 
-            yylval.iValue = atoi(yytext);
+            yylval.intValue = atoi(yytext);
             return INT_VALUE;
             }
 
 (-)?[0-9]+[.][0-9]+  {
-            yylval.fValue=atof(yytext);
+            yylval.floatValue=atof(yytext);
             return FLOAT_VALUE;
             }
 
 \'[A-Za-z0-9@&%$#!^()_*]\' {
-             yylval.cValue=strdup(yytext);
+             yylval.charValue=strdup(yytext);
              return CHAR_VALUE;
               }
 
 \"[\x23-\x7E \t !]*\" {
-            yylval.sValue=strdup(yytext);
+            yylval.stringValue=strdup(yytext);
             return STRING_VALUE;
             }
 
 [_a-zA-z][_a-zA-Z0-9]* {
-            yylval.id=strdup(yytext);
+            yylval.identifier=strdup(yytext);
             return IDENTIFIER;
             }
 \n {yylineno=yylineno+1;}

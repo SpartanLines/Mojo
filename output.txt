@@ -1,0 +1,8 @@
+	 MOV R0, NONE 
+	 MOV z,R0  
+	jmp lbl000
+	clbl000:	lbl000:	 MOV R1, NONE 
+	 MOV z,R1  
+	 MOV R2, 5 
+	 CMPST R3, R0, R1 
+	je clbl000

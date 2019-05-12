@@ -259,7 +259,3 @@ struct SymTableData* find(int index) {
    //if data found, return the current Link
    return current->data;
 }
-void main()
-{
-	printf("a");
-}

@@ -1,0 +1,12 @@
+Initialized Identifiers :- 
+z of type Integer 
+ 
+Uninitialized Identifiers :- 
+ 
+-----------------------------------------------
+
+Used Identifiers :- 
+
+Unused Identifiers :-
+z of type Integer 
+
